@@ -2,14 +2,25 @@
 
 <!DOCTYPE html>
 
-<html>
+<html ng-app="systemApp">
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <!-- Boostrap stylesheet -->
+        <link rel="stylesheet"  media="screen" href='@routes.Assets.at("bootstrap/css/bootstrap.min.css")'>
+        <link rel="stylesheet"  media="screen" href='@routes.Assets.at("bootstrap/css/bootstrap-switch.min.css")'>
+        <!-- jQuery & jQuery-ui -->
+        <script src='@routes.Assets.at("jquery/js/jquery-1.10.2.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("jquery/js/jquery-ui-1.10.4.js")' type="text/javascript"></script>  
+        <!-- angularJS -->
+        <script src='@routes.Assets.at("angular/angular.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("angular/angular-route.min.js")' type="text/javascript"></script>        
+        <!-- app -->
+        <script src='@routes.Assets.at("javascripts/systemApp.js")' type="text/javascript"></script>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
+        <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
     </head>
     <body>
         @content
+        Angular test: {{1+1}}
     </body>
 </html>
