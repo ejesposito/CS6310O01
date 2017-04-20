@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)
 
 <!DOCTYPE html>
 
@@ -20,7 +20,20 @@
         <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
     </head>
     <body>
-        @content
-        Angular test: {{1+1}}
+        <div ng-controller="mainCtrl" class="container">
+            <div class="row">
+                <p>University online program</p>
+                <div class="col-md-3">
+                    <ul> 
+                        <li><a href="#administrator">Administrator View</a></li>
+                        <li><a href="#instructor">Instructor View</a></li>
+                        <li><a href="#student">Student View</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div ng-view></div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

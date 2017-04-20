@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers.api;
+package controllers;
 
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import models.Administrator;
+import models.Instructor;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -25,14 +25,14 @@ import static play.mvc.Results.ok;
  * @author ejesposito
  */
 
-public class Capacities {
+public class Instructors {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
     
     public static Result list() {  
         try {
-            List<Administrator> objects = Administrator.getList();
-            JsonNode jsonObjects = Administrator.jsonListSerialization(objects);
+            List<Instructor> objects = Instructor.getList();
+            JsonNode jsonObjects = Instructor.jsonListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
@@ -42,7 +42,7 @@ public class Capacities {
     
     public static Result get(Long id) {  
         try {
-            Administrator object = Administrator.findByPropertie("id", id);
+            Instructor object = Instructor.findByPropertie("id", id);
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {
@@ -53,17 +53,17 @@ public class Capacities {
     
     public static Result create() {
         // Get the form from the request
-        Form<Administrator> form = Form.form(Administrator.class,Administrator.creation.class).bindFromRequest();
+        Form<Instructor> form = Form.form(Instructor.class,Instructor.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Administrator object = form.get();
+        Instructor object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Administrator.create(object);
+            Instructor.create(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);
@@ -77,17 +77,17 @@ public class Capacities {
     
     public static Result update(Long id) {
         // Get the form from the request
-        Form<Administrator> form = Form.form(Administrator.class,Administrator.creation.class).bindFromRequest();
+        Form<Instructor> form = Form.form(Instructor.class,Instructor.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Administrator object = form.get();
+        Instructor object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Administrator.update(object);
+            Instructor.update(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);
@@ -100,17 +100,17 @@ public class Capacities {
     }
     
     public static Result delete(Long id) {
-        Administrator object;
+        Instructor object;
         // Find the object
         try {
-            object = Administrator.findByPropertie("id", id);
+            object = Instructor.findByPropertie("id", id);
         } catch (Exception e) {
             return notFound("Error deleting object. Object not found");
         }
         // Delete the object from db
         Ebean.beginTransaction();
         try {
-            Administrator.delete(object);
+            Instructor.delete(object);
             Ebean.commitTransaction();
             return ok();            
         } catch (Exception e) {

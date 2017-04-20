@@ -2,8 +2,19 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
+# Views
+GET     /                               controllers.Application.index()
+GET     /administrator                  controllers.Application.administratorView()
+GET     /instructor                     controllers.Application.instructorView()
+GET     /student                        controllers.Application.studentView()
+
+# APIs
+# Persons
+GET     /api/persons                    controllers.Persons.list()
+GET     /api/person/:id                 controllers.Persons.get(id: Long)
+POST    /api/person                     controllers.Persons.create()
+PUT     /api/person/:id                 controllers.Persons.update(id: Long)
+DELETE  /api/person/:id                 controllers.Persons.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
