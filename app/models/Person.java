@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,11 +8,10 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -33,6 +33,10 @@ public class Person extends Model
     
     @Required(groups = creation.class)
     private String phone;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "person")
+    @JsonManagedReference
+    private List<Role> roles;
     
     private static final Finder<Long, Person> finder = new Finder<>(Long.class, Person.class);
     
@@ -74,25 +78,6 @@ public class Person extends Model
         mapper.setDateFormat(myDateFormat);       
         jsonError = mapper.convertValue(this, JsonNode.class);
         return jsonError;
-    }
-    
-   /**
-     * Serialize a list of objects with a particular set of attributes
-     * @param view
-     * @return
-     * @throws IOException 
-     */
-    public JsonNode jsonSerialization(Class view) throws IOException
-    {
-        ObjectMapper mapper = new ObjectMapper();
-        
-        DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        mapper.setDateFormat(myDateFormat); 
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        
-        ObjectWriter writer = mapper.writerWithView(view);
-        JsonNode response = mapper.readTree(writer.writeValueAsString(this));
-        return response;
     }
         
    /**
@@ -180,6 +165,20 @@ public class Person extends Model
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    
+    /**
+     * @return the roles
+     */
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    /**
+     * @param roles the roles to set
+     */
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
     
 }

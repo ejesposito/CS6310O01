@@ -3,11 +3,6 @@
 
 # --- !Ups
 
-create table administrators (
-  id                        bigint auto_increment not null,
-  constraint pk_administrators primary key (id))
-;
-
 create table capacities (
   id                        bigint auto_increment not null,
   constraint pk_capacities primary key (id))
@@ -21,11 +16,6 @@ create table courses (
 create table courses_sessions (
   id                        bigint auto_increment not null,
   constraint pk_courses_sessions primary key (id))
-;
-
-create table instructors (
-  id                        bigint auto_increment not null,
-  constraint pk_instructors primary key (id))
 ;
 
 create table persons (
@@ -47,15 +37,15 @@ create table records (
 ;
 
 create table roles (
+  DTYPE                     varchar(31) not null,
   id                        bigint auto_increment not null,
+  type                      varchar(255),
+  person_id                 bigint,
   constraint pk_roles primary key (id))
 ;
 
-create table students (
-  id                        bigint auto_increment not null,
-  constraint pk_students primary key (id))
-;
-
+alter table roles add constraint fk_roles_person_1 foreign key (person_id) references persons (id) on delete restrict on update restrict;
+create index ix_roles_person_1 on roles (person_id);
 
 
 
@@ -63,15 +53,11 @@ create table students (
 
 SET FOREIGN_KEY_CHECKS=0;
 
-drop table administrators;
-
 drop table capacities;
 
 drop table courses;
 
 drop table courses_sessions;
-
-drop table instructors;
 
 drop table persons;
 
@@ -80,8 +66,6 @@ drop table programs;
 drop table records;
 
 drop table roles;
-
-drop table students;
 
 SET FOREIGN_KEY_CHECKS=1;
 

@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,14 +8,17 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Inheritance;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
 @Entity
+@Inheritance
+@DiscriminatorColumn
 @Table(name="roles")
 public class Role extends Model 
 {
@@ -24,7 +28,29 @@ public class Role extends Model
     @Id
     private Long id;
     
+    private String type;
+    
+    @ManyToOne
+    @JoinColumn(name="person_id")
+    @JsonBackReference
+    private Person person;
+    
     private static final Finder<Long, Role> finder = new Finder<>(Long.class, Role.class);
+    
+    public Role () {
+        
+    }
+    
+    public Role (Long id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+    
+    public Role (Long id, String type, Person person) {
+        this.id = id;
+        this.type = type;
+        this.person = person;
+    }
     
     public static void create (Role object) throws Exception       
     {
@@ -57,32 +83,14 @@ public class Role extends Model
      * @throws Exception 
      */
     public JsonNode jsonSerialization() throws Exception
-    {
+    {        
         JsonNode jsonError;
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat);       
         jsonError = mapper.convertValue(this, JsonNode.class);
         return jsonError;
-    }
-    
-   /**
-     * Serialize a list of objects with a particular set of attributes
-     * @param view
-     * @return
-     * @throws IOException 
-     */
-    public JsonNode jsonSerialization(Class view) throws IOException
-    {
-        ObjectMapper mapper = new ObjectMapper();
-        
-        DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        mapper.setDateFormat(myDateFormat); 
-        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
-        
-        ObjectWriter writer = mapper.writerWithView(view);
-        JsonNode response = mapper.readTree(writer.writeValueAsString(this));
-        return response;
     }
         
    /**
@@ -94,6 +102,7 @@ public class Role extends Model
     public static JsonNode jsonListSerialization(List<Role> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat); 
         return mapper.convertValue(objects, JsonNode.class);
@@ -109,6 +118,7 @@ public class Role extends Model
     {
         Role object;
         ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat); 
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -128,6 +138,34 @@ public class Role extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the person
+     */
+    public Person getPerson() {
+        return person;
+    }
+
+    /**
+     * @param person the person to set
+     */
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+    
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
     
 }

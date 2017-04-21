@@ -31,8 +31,8 @@ public class Instructors {
     
     public static Result list() {  
         try {
-            List<Instructor> objects = Instructor.getList();
-            JsonNode jsonObjects = Instructor.jsonListSerialization(objects);
+            List<Instructor> objects = Instructor.getInstructorsList();
+            JsonNode jsonObjects = Instructor.jsonInstructorsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);

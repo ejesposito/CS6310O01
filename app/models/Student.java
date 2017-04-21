@@ -5,26 +5,34 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import play.db.ebean.Model;
+import javax.persistence.DiscriminatorValue;
 
 @Entity
-@Table(name="students")
-public class Student extends Model 
+@DiscriminatorValue("STUDENT")
+public class Student extends models.Role 
 {
 
     public interface creation{}
     
-    @Id
-    private Long id;
-    
     private static final Finder<Long, Student> finder = new Finder<>(Long.class, Student.class);
+    
+    public Student () {
+        
+    }
+    
+    public Student (Long id) {
+        super(id, "STUDENT");
+    }
+    
+    public Student (Long id, Person person) {
+        super(id, "STUDENT", person);
+    }
     
     public static void create (Student object) throws Exception       
     {
@@ -46,7 +54,7 @@ public class Student extends Model
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<Student> getList () throws Exception
+    public static List<Student> getStudentsList () throws Exception
     {
         return finder.all();
     }
@@ -56,6 +64,7 @@ public class Student extends Model
      * @return
      * @throws Exception 
      */
+    @Override
     public JsonNode jsonSerialization() throws Exception
     {
         JsonNode jsonError;
@@ -91,7 +100,7 @@ public class Student extends Model
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonListSerialization(List<Student> objects) throws Exception
+    public static JsonNode jsonStudentsListSerialization(List<Student> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -114,20 +123,6 @@ public class Student extends Model
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         object = mapper.convertValue(jsonObject,Student.class);
         return object;
-    }
-    
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
     }
     
 }

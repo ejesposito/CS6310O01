@@ -46,6 +46,13 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     };
     
     $scope.createPerson = function() {
+        var stringRole = new Array();
+        if ($scope.newPerson.isAdministrator === 'true')
+            stringRole.push("ADMINISTRATOR");
+        if ($scope.newPerson.isInstructor === 'true')
+            stringRole.push("INSTRUCTOR");
+        if ($scope.newPerson.isStudent === 'true')
+            stringRole.push("STUDENT");
         $http.post('/api/person', $scope.newPerson, config)
             .success(function (data, status, headers, config) {
                 console.log(JSON.stringify(data) + " " + status);
@@ -76,6 +83,16 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
             });
+    };
+    
+    $scope.getRoles = function(person) {
+        var stringRoles = "";
+        console.log("Selected: " + JSON.stringify(person.roles));
+        angular.forEach(person.roles, function(role){
+            console.log(role.type);
+            stringRoles = stringRoles + " " + role.type;
+        });
+        return stringRoles;
     };
     
     $scope.listPersons();

@@ -31,8 +31,8 @@ public class Students {
     
     public static Result list() {  
         try {
-            List<Student> objects = Student.getList();
-            JsonNode jsonObjects = Student.jsonListSerialization(objects);
+            List<Student> objects = Student.getStudentsList();
+            JsonNode jsonObjects = Student.jsonStudentsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);

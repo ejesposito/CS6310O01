@@ -9,10 +9,15 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
+import models.Administrator;
+import models.Instructor;
 import models.Person;
+import models.Role;
+import models.Student;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
+import static play.mvc.Controller.request;
 import play.mvc.Result;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.created;
@@ -29,7 +34,7 @@ public class Persons {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
     
-    public static Result list() {  
+    public static Result list() {
         try {
             List<Person> objects = Person.getList();
             JsonNode jsonObjects = Person.jsonListSerialization(objects);
@@ -60,6 +65,14 @@ public class Persons {
         }
         // Get the object from the form
         Person object = form.get();
+        // Add the roles
+        JsonNode json = request().body().asJson();
+        if (json.get("isAdministrator") != null && json.get("isAdministrator").asBoolean() == true)
+            object.getRoles().add(new Administrator(null, object));
+        if (json.get("isInstructor") != null && json.get("isInstructor").asBoolean() == true)
+            object.getRoles().add(new Instructor(null, object));
+        if (json.get("isStudent") != null && json.get("isStudent").asBoolean() == true)
+            object.getRoles().add(new Student(null, object));
         // Create the object in db
         Ebean.beginTransaction();
         try {

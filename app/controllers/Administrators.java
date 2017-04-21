@@ -31,8 +31,8 @@ public class Administrators {
     
     public static Result list() {  
         try {
-            List<Administrator> objects = Administrator.getList();
-            JsonNode jsonObjects = Administrator.jsonListSerialization(objects);
+            List<Administrator> objects = Administrator.getAdministratorsList();
+            JsonNode jsonObjects = Administrator.jsonAdministratorsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
