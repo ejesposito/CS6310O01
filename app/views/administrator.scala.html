@@ -1,1 +1,81 @@
-Administrator View
+<div ng-controller="administratorCtrl">
+
+    <h2>Administrator View</h2>
+   
+        <h3>Create person</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-3 form-group">
+                    <h4>Full name</h4>
+                        <input ng-model="newPerson.name" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Address</h4>
+                    <input ng-model="newPerson.address" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Phone</h4>
+                    <input ng-model="newPerson.phone" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="createPerson()">Create person</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>Update or delete person</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-3 form-group">
+                    <h4>Select</h4>
+                    <select ng-model="selectedPerson" ng-options="person as person.name for person in persons" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Full name</h4>
+                        <input ng-model="selectedPerson.name" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Address</h4>
+                    <input ng-model="selectedPerson.address" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Phone</h4>
+                    <input ng-model="selectedPerson.phone" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="updatePerson()">Update person</button>
+                </div>
+                <div class="col-md-3 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="deletePerson()">Delete person</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>List Persons</h3>
+        <div class="row">
+             <div class="col-md-12">
+                 <table class="table table-hover text-center">
+                     <tr>
+                         <th class="text-center">UUID</th>
+                         <th class="text-center">Name</th>
+                         <th class="text-center">Address</th>
+                         <th class="text-center">Phone</th>
+                     </tr>
+                     <tr ng-repeat="person in persons | orderBy:'id' ">
+                         <td>{{ person.id }}</td>
+                         <td>{{ person.name }}</td>
+                         <td>{{ person.address }}</td>
+                         <td>{{ person.phone }}</td>
+                    </tr>
+                 </table>
+             </div>
+        </div>
+    
+</div>
+
+
+
+

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -23,6 +24,15 @@ public class Person extends Model
     
     @Id
     private Long id;
+    
+    @Required(groups = creation.class)
+    private String name;
+
+    @Required(groups = creation.class)
+    private String address;
+    
+    @Required(groups = creation.class)
+    private String phone;
     
     private static final Finder<Long, Person> finder = new Finder<>(Long.class, Person.class);
     
@@ -128,6 +138,48 @@ public class Person extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+ 
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
     
 }
