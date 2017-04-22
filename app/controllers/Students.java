@@ -9,7 +9,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import models.Student;
+import models.StudentRole;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -31,8 +31,8 @@ public class Students {
     
     public static Result list() {  
         try {
-            List<Student> objects = Student.getStudentsList();
-            JsonNode jsonObjects = Student.jsonStudentsListSerialization(objects);
+            List<StudentRole> objects = StudentRole.getStudentsList();
+            JsonNode jsonObjects = StudentRole.jsonStudentsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
@@ -42,7 +42,7 @@ public class Students {
     
     public static Result get(Long id) {  
         try {
-            Student object = Student.findByPropertie("id", id);
+            StudentRole object = StudentRole.findByPropertie("id", id);
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {
@@ -53,17 +53,17 @@ public class Students {
     
     public static Result create() {
         // Get the form from the request
-        Form<Student> form = Form.form(Student.class,Student.creation.class).bindFromRequest();
+        Form<StudentRole> form = Form.form(StudentRole.class,StudentRole.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Student object = form.get();
+        StudentRole object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Student.create(object);
+            StudentRole.create(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);
@@ -77,17 +77,17 @@ public class Students {
     
     public static Result update(Long id) {
         // Get the form from the request
-        Form<Student> form = Form.form(Student.class,Student.creation.class).bindFromRequest();
+        Form<StudentRole> form = Form.form(StudentRole.class,StudentRole.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Student object = form.get();
+        StudentRole object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Student.update(object);
+            StudentRole.update(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);
@@ -100,17 +100,17 @@ public class Students {
     }
     
     public static Result delete(Long id) {
-        Student object;
+        StudentRole object;
         // Find the object
         try {
-            object = Student.findByPropertie("id", id);
+            object = StudentRole.findByPropertie("id", id);
         } catch (Exception e) {
             return notFound("Error deleting object. Object not found");
         }
         // Delete the object from db
         Ebean.beginTransaction();
         try {
-            Student.delete(object);
+            StudentRole.delete(object);
             Ebean.commitTransaction();
             return ok();            
         } catch (Exception e) {

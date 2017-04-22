@@ -9,7 +9,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import models.Instructor;
+import models.InstructorRole;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -31,8 +31,8 @@ public class Instructors {
     
     public static Result list() {  
         try {
-            List<Instructor> objects = Instructor.getInstructorsList();
-            JsonNode jsonObjects = Instructor.jsonInstructorsListSerialization(objects);
+            List<InstructorRole> objects = InstructorRole.getInstructorsList();
+            JsonNode jsonObjects = InstructorRole.jsonInstructorsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
@@ -42,7 +42,7 @@ public class Instructors {
     
     public static Result get(Long id) {  
         try {
-            Instructor object = Instructor.findByPropertie("id", id);
+            InstructorRole object = InstructorRole.findByPropertie("id", id);
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {
@@ -53,17 +53,17 @@ public class Instructors {
     
     public static Result create() {
         // Get the form from the request
-        Form<Instructor> form = Form.form(Instructor.class,Instructor.creation.class).bindFromRequest();
+        Form<InstructorRole> form = Form.form(InstructorRole.class,InstructorRole.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Instructor object = form.get();
+        InstructorRole object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Instructor.create(object);
+            InstructorRole.create(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);
@@ -77,17 +77,17 @@ public class Instructors {
     
     public static Result update(Long id) {
         // Get the form from the request
-        Form<Instructor> form = Form.form(Instructor.class,Instructor.creation.class).bindFromRequest();
+        Form<InstructorRole> form = Form.form(InstructorRole.class,InstructorRole.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Instructor object = form.get();
+        InstructorRole object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Instructor.update(object);
+            InstructorRole.update(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);
@@ -100,17 +100,17 @@ public class Instructors {
     }
     
     public static Result delete(Long id) {
-        Instructor object;
+        InstructorRole object;
         // Find the object
         try {
-            object = Instructor.findByPropertie("id", id);
+            object = InstructorRole.findByPropertie("id", id);
         } catch (Exception e) {
             return notFound("Error deleting object. Object not found");
         }
         // Delete the object from db
         Ebean.beginTransaction();
         try {
-            Instructor.delete(object);
+            InstructorRole.delete(object);
             Ebean.commitTransaction();
             return ok();            
         } catch (Exception e) {

@@ -5,60 +5,55 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.persistence.ManyToOne;
-import play.db.ebean.Model;
+import javax.persistence.DiscriminatorValue;
 
 @Entity
-@Table(name="instructors")
-public class Instructor extends Model 
+@DiscriminatorValue("INSTRUCTOR")
+public class InstructorRole extends models.Role 
 {
 
     public interface creation{}
     
-    @Id
-    private Long id;
+    private static final Finder<Long, InstructorRole> finder = new Finder<>(Long.class, InstructorRole.class);
     
-    @ManyToOne
-    private Person person;
-    
-    private static final Finder<Long, Instructor> finder = new Finder<>(Long.class, Instructor.class);
-    
-    public Instructor () {
+    public InstructorRole () {
         
     }
     
-    public Instructor (Person person) {
-        this.person = person;
+    public InstructorRole (Long id) {
+        super(id, "INSTRUCTOR");
     }
     
-    public static void create (Instructor object) throws Exception       
+    public InstructorRole (Long id, Person person) {
+        super(id, "INSTRUCTOR", person);
+    }
+    
+    public static void create (InstructorRole object) throws Exception       
     {
         object.save();
     }
     
-    public static void update (Instructor object) throws Exception
+    public static void update (InstructorRole object) throws Exception
     {
         object.update();
     }
     
-    public static void delete (Instructor object) throws Exception
+    public static void delete (InstructorRole object) throws Exception
     {
         object.delete();
     }
     
-    public static Instructor findByPropertie(String key,Object obj) throws Exception
+    public static InstructorRole findByPropertie(String key,Object obj) throws Exception
     {
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<Instructor> getList () throws Exception
+    public static List<InstructorRole> getInstructorsList () throws Exception
     {
         return finder.all();
     }
@@ -68,6 +63,7 @@ public class Instructor extends Model
      * @return
      * @throws Exception 
      */
+    @Override
     public JsonNode jsonSerialization() throws Exception
     {
         JsonNode jsonError;
@@ -103,7 +99,7 @@ public class Instructor extends Model
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonListSerialization(List<Instructor> objects) throws Exception
+    public static JsonNode jsonInstructorsListSerialization(List<InstructorRole> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -117,43 +113,15 @@ public class Instructor extends Model
      * @return
      * @throws Exception 
      */
-    public static Instructor jsonDesSerialization(JsonNode jsonObject) throws Exception
+    public static InstructorRole jsonDesSerialization(JsonNode jsonObject) throws Exception
     {
-        Instructor object;
+        InstructorRole object;
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat); 
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        object = mapper.convertValue(jsonObject,Instructor.class);
+        object = mapper.convertValue(jsonObject,InstructorRole.class);
         return object;
-    }
-    
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-        /**
-     * @return the person
-     */
-    public Person getPerson() {
-        return person;
-    }
-
-    /**
-     * @param person the person to set
-     */
-    public void setPerson(Person person) {
-        this.person = person;
     }
     
 }

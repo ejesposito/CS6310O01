@@ -10,10 +10,13 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import models.Administrator;
+import models.AdministratorRole;
 import models.Instructor;
+import models.InstructorRole;
 import models.Person;
 import models.Role;
 import models.Student;
+import models.StudentRole;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -66,17 +69,32 @@ public class Persons {
         // Get the object from the form
         Person object = form.get();
         // Add the roles
+        models.Student student = null;
+        models.Instructor instructor = null;
+        models.Administrator administrator = null;
         JsonNode json = request().body().asJson();
-        if (json.get("isAdministrator") != null && json.get("isAdministrator").asBoolean() == true)
-            object.getRoles().add(new Administrator(null, object));
-        if (json.get("isInstructor") != null && json.get("isInstructor").asBoolean() == true)
-            object.getRoles().add(new Instructor(null, object));
-        if (json.get("isStudent") != null && json.get("isStudent").asBoolean() == true)
-            object.getRoles().add(new Student(null, object));
+        if (json.get("isAdministrator") != null && json.get("isAdministrator").asBoolean() == true) {
+            object.getRoles().add(new AdministratorRole(null, object));
+            administrator = new models.Administrator(object);
+        }
+        if (json.get("isInstructor") != null && json.get("isInstructor").asBoolean() == true) {
+            object.getRoles().add(new InstructorRole(null, object));
+            instructor = new models.Instructor(object);
+        }
+        if (json.get("isStudent") != null && json.get("isStudent").asBoolean() == true) {
+            object.getRoles().add(new StudentRole(null, object));
+            student = new models.Student(object);
+        }
         // Create the object in db
         Ebean.beginTransaction();
         try {
             Person.create(object);
+            if (administrator != null)
+                Administrator.create(administrator);
+            if (instructor != null)
+                Instructor.create(instructor);
+            if (student != null)
+                Student.create(student);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);

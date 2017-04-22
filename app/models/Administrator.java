@@ -5,20 +5,27 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.ManyToOne;
+import play.db.ebean.Model;
 
 @Entity
-@DiscriminatorValue("ADMINISTRATOR")
-public class Administrator extends models.Role 
+@Table(name="administrators")
+public class Administrator extends Model 
 {
-
     public interface creation{}
+    
+    @Id
+    private Long id;
+    
+    @ManyToOne
+    private Person person;
     
     private static final Finder<Long, Administrator> finder = new Finder<>(Long.class, Administrator.class);
     
@@ -26,12 +33,8 @@ public class Administrator extends models.Role
         
     }
     
-    public Administrator (Long id) {
-        super(id, "ADMINISTRATOR");
-    }
-    
-    public Administrator (Long id, Person person) {
-        super(id, "ADMINISTRATOR", person);
+    public Administrator (Person person) {
+        this.person = person;
     }
     
     public static void create (Administrator object) throws Exception       
@@ -54,7 +57,7 @@ public class Administrator extends models.Role
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<Administrator> getAdministratorsList () throws Exception
+    public static List<Administrator> getList () throws Exception
     {
         return finder.all();
     }
@@ -64,7 +67,6 @@ public class Administrator extends models.Role
      * @return
      * @throws Exception 
      */
-    @Override
     public JsonNode jsonSerialization() throws Exception
     {
         JsonNode jsonError;
@@ -100,7 +102,7 @@ public class Administrator extends models.Role
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonAdministratorsListSerialization(List<Administrator> objects) throws Exception
+    public static JsonNode jsonListSerialization(List<Administrator> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -124,6 +126,33 @@ public class Administrator extends models.Role
         object = mapper.convertValue(jsonObject,Administrator.class);
         return object;
     }
-  
+    
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    /**
+     * @return the person
+     */
+    public Person getPerson() {
+        return person;
+    }
+
+    /**
+     * @param person the person to set
+     */
+    public void setPerson(Person person) {
+        this.person = person;
+    }
     
 }
