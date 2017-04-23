@@ -10,6 +10,8 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import models.Course;
+import models.Student;
+import models.CourseSession;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -28,7 +30,9 @@ import static play.mvc.Results.ok;
 public class Courses {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
-    
+
+
+
     public static Result list() {  
         try {
             List<Course> objects = Course.getList();
