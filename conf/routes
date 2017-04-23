@@ -16,5 +16,8 @@ POST    /api/person                     controllers.Persons.create()
 PUT     /api/person/:id                 controllers.Persons.update(id: Long)
 DELETE  /api/person/:id                 controllers.Persons.delete(id: Long)
 
+#Instructors
+GET     /api/instructors                controllers.Instructors.list()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

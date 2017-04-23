@@ -99,8 +99,32 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
         
 }]);
 
-systemApp.controller("instructorCtrl", ['$scope', function ($scope) {
-    $scope.msg = "Instructor";
+systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $http) {
+    
+    $scope.instructors = [];
+    $scope.newInstructor = {};
+    $scope.selectedInstructor = {};
+    
+    var config = {
+        headers : {
+            'Content-Type' : 'application/json',
+            'Accept' : "application/json"
+        }
+    };
+    
+    $scope.listInstructors = function() {
+        $http.get('/api/instructors', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.instructors = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });  
+    };
+    
+    $scope.listInstructors();
+        
 }]);
 
 systemApp.controller("studentCtrl", ['$scope', function ($scope) {
