@@ -131,6 +131,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
     $scope.instructors = [];
     $scope.newInstructor = {};
     $scope.selectedInstructor = {};
+    $scope.selectedRow = 0;
     
     var config = {
         headers : {
@@ -138,6 +139,10 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
             'Accept' : "application/json"
         }
     };
+    
+    $scope.setClickedRow = function(index) {
+        $scope.selectedRow = index;
+    }
     
     $scope.listInstructors = function() {
         $http.get('/api/instructors', config)
