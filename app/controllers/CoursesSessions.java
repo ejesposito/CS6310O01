@@ -10,6 +10,7 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import models.CourseSession;
+import models.Student;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -28,7 +29,30 @@ import static play.mvc.Results.ok;
 public class CoursesSessions {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
-    
+
+
+    public static Result requestCourse(int courseId, int studentId) {
+        try {
+            CourseSession courseSession = CourseSession.findByPropertie("id", courseId);
+            Student student = Student.findByPropertie("id", studentId);
+            if (student.hasPrereqsForCourse(courseSession.getCourse())) {
+                if (courseSession.hasCourseRoom()) {
+                    courseSession.setCurrentAllocation(courseSession.getCurrentAllocation() - 1);
+                    CourseSession.update(courseSession);
+                    student.getProgramCourses().add(courseSession.getCourse());
+                    Student.update(student);
+                    return ok("Enrolled");
+                } else {
+                    return ok("Not enough room; Waitlisted");
+                }
+             } else {
+                return ok("Student does not meet pre-reqs");
+            }
+        } catch (Exception e) {
+            appLogger.error("Error listing objects",e);
+            return internalServerError("Error listing objects");
+        }
+    }
     public static Result list() {  
         try {
             List<CourseSession> objects = CourseSession.getList();

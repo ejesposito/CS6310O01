@@ -23,6 +23,13 @@ POST    /api/instructor                 controllers.Instructors.create()
 PUT     /api/instructor/:id             controllers.Instructors.update(id: Long)
 DELETE  /api/instructor/:id             controllers.Instructors.delete(id: Long)
 
+#Students
+GET     /api/students                   controllers.Students.list()
+GET     /api/students                   controllers.Students.get(id: Long)
+POST    /api/students                   controllers.Students.create()
+PUT     /api/students/:id               controllers.Students.update(id: Long)
+DELETE  /api/students/:id               controllers.Students.delete(id: Long)
+
 #Courses
 GET     /api/courses                    controllers.Courses.list()
 GET     /api/course/:id                 controllers.Courses.get(id: Long)
@@ -30,7 +37,14 @@ POST    /api/course                     controllers.Courses.create()
 PUT     /api/course/:id                 controllers.Courses.update(id: Long)
 DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
 
-#Students
+
+#Courses
+GET     /api/courseSession                     controllers.CoursesSessions.list()
+GET     /api/courseSession/:id                 controllers.CoursesSessions.get(id: Long)
+POST    /api/courseSession                     controllers.CoursesSessions.create()
+PUT     /api/courseSession/:id                 controllers.CoursesSessions.update(id: Long)
+DELETE  /api/courseSession/:id                 controllers.CoursesSessions.delete(id: Long)
+GET     /api/courseSession/register            controllers.CoursesSessions.requestCourse(courseId: Int, studentId: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

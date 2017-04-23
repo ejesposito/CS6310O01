@@ -26,18 +26,18 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.persons = [];
     $scope.newPerson = {};
     $scope.selectedPerson = {};
-    
+
     $scope.courses = [];
     $scope.newCourse = {};
     $scope.selectedCourse = {};
-    
+
     var config = {
         headers : {
             'Content-Type' : 'application/json',
             'Accept' : "application/json"
         }
     };
-    
+
     $scope.listPersons = function() {
         $http.get('/api/persons', config)
             .success(function (data, status, headers, config) {
@@ -46,9 +46,9 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             })
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
-            });  
+            });
     };
-    
+
     $scope.createPerson = function() {
         var stringRole = new Array();
         if ($scope.newPerson.isAdministrator === 'true')
@@ -66,7 +66,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 console.log(JSON.stringify(data) + " " + status);
             });
     };
-    
+
     $scope.updatePerson = function() {
         $http.put('/api/person/' + $scope.selectedPerson.id, $scope.selectedPerson, config)
             .success(function (data, status, headers, config) {
@@ -77,7 +77,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 console.log(JSON.stringify(data) + " " + status);
             });
     };
-    
+
     $scope.deletePerson = function() {
         $http.delete('/api/person/' + $scope.selectedPerson.id, $scope.selectedPerson, config)
             .success(function (data, status, headers, config) {
@@ -88,7 +88,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 console.log(JSON.stringify(data) + " " + status);
             });
     };
-    
+
     $scope.getRoles = function(person) {
         var stringRoles = "";
         console.log("Selected: " + JSON.stringify(person.roles));
@@ -98,7 +98,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
         });
         return stringRoles;
     };
-    
+
     $scope.listCourses = function() {
         $http.get('/api/courses', config)
             .success(function (data, status, headers, config) {
@@ -107,9 +107,9 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             })
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
-            });  
+            });
     };
-    
+
     $scope.createCourse = function() {
         $http.post('/api/course', $scope.newCourse, config)
             .success(function (data, status, headers, config) {
@@ -120,7 +120,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 console.log(JSON.stringify(data) + " " + status);
             });
     };
-    
+
     $scope.listPersons();
     $scope.listCourses();
         
@@ -166,7 +166,65 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
         
 }]);
 
-systemApp.controller("studentCtrl", ['$scope', function ($scope) {
-    $scope.msg = "Student";
+systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http) {
+
+    $scope.students = [];
+    $scope.currentStudent = {};
+    $scope.currentStudentId = 1;
+    $scope.courses = [];
+    $scope.chosenCourse = {};
+    $scope.enrollmentMessage = '';
+    var config = {
+        headers : {
+            'Content-Type' : 'application/json',
+            'Accept' : "application/json"
+        }
+    };
+
+    $scope.listStudents = function() {
+        $http.get('/api/students', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.students = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.requestCourse = function() {
+        $http.get('/api/courseSession/register?studentId=' + $scope.currentStudentId.id + '&courseId=' + $scope.chosenCourse.id)
+            .success(function (data, status, headers, config) {
+                $scope.enrollmentMessage = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.changeStudent = function() {
+        for (var i = 0; i < $scope.students.length; i++) {
+            if ($scope.students[i].id == $scope.currentStudentId) {
+                $scope.currentStudent = $scope.students[i];
+            }
+        }
+    };
+    $scope.listCourses = function() {
+        $http.get('/api/courseSession', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.courses = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+
+
+
+    $scope.listStudents();
+    $scope.changeStudent();
+    $scope.listCourses();
 }]);
 
