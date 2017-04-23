@@ -8,6 +8,9 @@ GET     /administrator                  controllers.Application.administratorVie
 GET     /instructor                     controllers.Application.instructorView()
 GET     /student                        controllers.Application.studentView()
 
+# CSV
+GET     /loadCSV                        controllers.Application.loadCSVData()
+
 # APIs
 # Persons
 GET     /api/persons                    controllers.Persons.list()

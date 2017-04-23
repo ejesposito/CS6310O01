@@ -40,6 +40,17 @@ public class Person extends Model
     
     private static final Finder<Long, Person> finder = new Finder<>(Long.class, Person.class);
     
+    public Person () {
+        
+    }
+    
+    public Person (String name, String address, String phone) {
+        this.id = null;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+    
     public static void create (Person object) throws Exception       
     {
         object.save();

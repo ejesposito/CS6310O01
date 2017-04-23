@@ -138,6 +138,9 @@ public class Persons {
         // Delete the object from db
         Ebean.beginTransaction();
         try {
+            for (Role r : object.getRoles()) {
+                Role.delete(r);
+            }
             Person.delete(object);
             Ebean.commitTransaction();
             return ok();            
