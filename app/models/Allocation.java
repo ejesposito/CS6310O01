@@ -15,8 +15,8 @@ import java.text.SimpleDateFormat;
 import play.db.ebean.Model;
 
 @Entity
-@Table(name="capacities")
-public class Capacity extends Model 
+@Table(name="allocations")
+public class Allocation extends Model 
 {
 
     public interface creation{}
@@ -24,29 +24,29 @@ public class Capacity extends Model
     @Id
     private Long id;
     
-    private static final Finder<Long, Capacity> finder = new Finder<>(Long.class, Capacity.class);
+    private static final Finder<Long, Allocation> finder = new Finder<>(Long.class, Allocation.class);
     
-    public static void create (Capacity object) throws Exception       
+    public static void create (Allocation object) throws Exception       
     {
         object.save();
     }
     
-    public static void update (Capacity object) throws Exception
+    public static void update (Allocation object) throws Exception
     {
         object.update();
     }
     
-    public static void delete (Capacity object) throws Exception
+    public static void delete (Allocation object) throws Exception
     {
         object.delete();
     }
     
-    public static Capacity findByPropertie(String key,Object obj) throws Exception
+    public static Allocation findByPropertie(String key,Object obj) throws Exception
     {
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<Capacity> getList () throws Exception
+    public static List<Allocation> getList () throws Exception
     {
         return finder.all();
     }
@@ -91,7 +91,7 @@ public class Capacity extends Model
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonListSerialization(List<Capacity> objects) throws Exception
+    public static JsonNode jsonListSerialization(List<Allocation> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -105,14 +105,14 @@ public class Capacity extends Model
      * @return
      * @throws Exception 
      */
-    public static Capacity jsonDesSerialization(JsonNode jsonObject) throws Exception
+    public static Allocation jsonDesSerialization(JsonNode jsonObject) throws Exception
     {
-        Capacity object;
+        Allocation object;
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat); 
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        object = mapper.convertValue(jsonObject,Capacity.class);
+        object = mapper.convertValue(jsonObject,Allocation.class);
         return object;
     }
     

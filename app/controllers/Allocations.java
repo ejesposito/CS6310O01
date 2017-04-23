@@ -9,7 +9,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import models.Capacity;
+import models.Allocation;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -25,14 +25,14 @@ import static play.mvc.Results.ok;
  * @author ejesposito
  */
 
-public class Capacities {
+public class Allocations {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
     
     public static Result list() {  
         try {
-            List<Capacity> objects = Capacity.getList();
-            JsonNode jsonObjects = Capacity.jsonListSerialization(objects);
+            List<Allocation> objects = Allocation.getList();
+            JsonNode jsonObjects = Allocation.jsonListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
@@ -42,7 +42,7 @@ public class Capacities {
     
     public static Result get(Long id) {  
         try {
-            Capacity object = Capacity.findByPropertie("id", id);
+            Allocation object = Allocation.findByPropertie("id", id);
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {
@@ -53,17 +53,17 @@ public class Capacities {
     
     public static Result create() {
         // Get the form from the request
-        Form<Capacity> form = Form.form(Capacity.class,Capacity.creation.class).bindFromRequest();
+        Form<Allocation> form = Form.form(Allocation.class,Allocation.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Capacity object = form.get();
+        Allocation object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Capacity.create(object);
+            Allocation.create(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);
@@ -77,17 +77,17 @@ public class Capacities {
     
     public static Result update(Long id) {
         // Get the form from the request
-        Form<Capacity> form = Form.form(Capacity.class,Capacity.creation.class).bindFromRequest();
+        Form<Allocation> form = Form.form(Allocation.class,Allocation.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        Capacity object = form.get();
+        Allocation object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            Capacity.update(object);
+            Allocation.update(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);
@@ -100,17 +100,17 @@ public class Capacities {
     }
     
     public static Result delete(Long id) {
-        Capacity object;
+        Allocation object;
         // Find the object
         try {
-            object = Capacity.findByPropertie("id", id);
+            object = Allocation.findByPropertie("id", id);
         } catch (Exception e) {
             return notFound("Error deleting object. Object not found");
         }
         // Delete the object from db
         Ebean.beginTransaction();
         try {
-            Capacity.delete(object);
+            Allocation.delete(object);
             Ebean.commitTransaction();
             return ok();            
         } catch (Exception e) {
