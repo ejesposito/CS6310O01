@@ -36,15 +36,13 @@ public class CourseSession extends Model
     
     private Long currentAllocation;
     
-    @ManyToMany
-    @JoinColumn(name="instructor_id")
-    @JsonBackReference
+    @ManyToMany(mappedBy = "coursesSessions")
     private List<Instructor> instructors;
     
     @ManyToOne
     @JoinColumn(name="course_id")
     @JsonBackReference
-    private Instructor course;
+    private Course course;
     
     private static final Finder<Long, CourseSession> finder = new Finder<>(Long.class, CourseSession.class);
     
@@ -225,14 +223,14 @@ public class CourseSession extends Model
     /**
      * @return the course
      */
-    public Instructor getCourse() {
+    public Course getCourse() {
         return course;
     }
 
     /**
      * @param course the course to set
      */
-    public void setCourse(Instructor course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
     

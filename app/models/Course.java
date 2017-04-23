@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import play.data.validation.Constraints;
@@ -38,10 +40,16 @@ public class Course extends Model
     private Boolean inSpring;
     
     private Boolean inSummer;
-    
+
     @ManyToMany
+    @JoinTable(name = "course_prerequisites", joinColumns = {
+        @JoinColumn(name = "course_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "prerequisite_id")})
     private List<Course> prerequisites;
     
+    @ManyToMany(mappedBy = "prerequisites")
+    public List<Course> inversePrerequisites;
+
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "course")
     private List<CourseSession> sessions;
     
