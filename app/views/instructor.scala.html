@@ -1,1 +1,54 @@
-Instructor View
+<div ng-controller="instructorCtrl">
+
+    <h2>Instructor View</h2>
+
+        <h3>List Instructors</h3>
+        <div class="row">
+             <div class="col-md-12">
+                 <table class="table table-hover text-center">
+                     <tr>
+                         <th class="text-center">UUID</th>
+                         <th class="text-center">Person ID</th>
+                         <th class="text-center">Name</th>
+                     </tr>
+                     <tr ng-repeat="instructor in instructors | orderBy:'id' ">
+                         <td>{{instructor.id }}</td>
+                         <td>{{instructor.person_id}}</td>
+                         <td>{{instructor.person.name}}</td>
+                    </tr>
+                 </table>
+             </div>
+        </div>
+        
+        <!--<h3>Choose Instructor</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-3 form-group">
+                    <h4>Select</h4>
+                    <select ng-model="selectedInstructor" ng-options="instructor as instructor.id for instructor in instructors"
+                            ng-change="selectedPersonChange()" class="form-control input-sm"></select>
+                </div>
+            </div>
+        </div>-->
+        
+        <h3>List Courses</h3>
+        <div class="row">
+             <div class="col-md-12">
+                 <table class="table table-hover text-center">
+                     <tr>
+                         <th class="text-center">ID</th>
+                         <th class="text-center">Title</th>
+                     </tr>
+                     <tr ng-repeat="course in courses | orderBy:'id' ">
+                         <td>{{course.id}}</td>
+                         <td>{{course.title}}</td>
+                    </tr>
+                 </table>
+             </div>
+        </div>
+    
+</div>
+
+
+
+

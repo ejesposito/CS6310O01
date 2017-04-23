@@ -1,5 +1,7 @@
 package models;
 
+import com.avaje.ebean.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +14,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
 @Entity
@@ -21,10 +25,43 @@ public class Record extends Model
 
     public interface creation{}
     
+    public enum Grade {
+        @EnumValue("A")
+        A("A"),
+        @EnumValue("B")
+        B("B"),
+        @EnumValue("C")
+        C("C"),
+        @EnumValue("D")
+        D("D"),
+        @EnumValue("E")
+        E("E"),
+        @EnumValue("F")
+        F("F");
+        public String humanFriendlyName;
+        private Grade(String humanReadableName) {
+            this.humanFriendlyName = humanReadableName;
+        }
+        @Override
+        public String toString() { return humanFriendlyName; }
+    }
+    
+    private Grade grade;
+    
+    private String comment;
+    
+    @ManyToOne
+    @JoinColumn(name="student_id")
+    @JsonBackReference
+    private Student student;
+    
+    @ManyToOne
+    private CourseSession courseSession;
+    
     @Id
     private Long id;
     
-    private static final Finder<Long, Record> finder = new Finder<>(Long.class, Record.class);
+    private static Finder<Long, Record> finder = new Finder<>(Long.class, Record.class);
     
     public static void create (Record object) throws Exception       
     {
@@ -43,12 +80,12 @@ public class Record extends Model
     
     public static Record findByPropertie(String key,Object obj) throws Exception
     {
-        return finder.where().eq(key,obj).findUnique();
+        return getFinder().where().eq(key,obj).findUnique();
     }
     
     public static List<Record> getList () throws Exception
     {
-        return finder.all();
+        return getFinder().all();
     }
     
    /**
@@ -128,6 +165,76 @@ public class Record extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the finder
+     */
+    public static Finder<Long, Record> getFinder() {
+        return finder;
+    }
+
+    /**
+     * @param aFinder the finder to set
+     */
+    public static void setFinder(Finder<Long, Record> aFinder) {
+        finder = aFinder;
+    }
+
+    /**
+     * @return the grade
+     */
+    public Grade getGrade() {
+        return grade;
+    }
+
+    /**
+     * @param grade the grade to set
+     */
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    /**
+     * @return the comment
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * @param comment the comment to set
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    /**
+     * @return the student
+     */
+    public Student getStudent() {
+        return student;
+    }
+
+    /**
+     * @param student the student to set
+     */
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    /**
+     * @return the courseSession
+     */
+    public CourseSession getCourseSession() {
+        return courseSession;
+    }
+
+    /**
+     * @param courseSession the courseSession to set
+     */
+    public void setCourseSession(CourseSession courseSession) {
+        this.courseSession = courseSession;
     }
     
 }

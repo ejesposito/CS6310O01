@@ -9,7 +9,7 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
-import models.AdministratorRole;
+import models.Administrator;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -31,8 +31,8 @@ public class Administrators {
     
     public static Result list() {  
         try {
-            List<AdministratorRole> objects = AdministratorRole.getAdministratorsList();
-            JsonNode jsonObjects = AdministratorRole.jsonAdministratorsListSerialization(objects);
+            List<Administrator> objects = Administrator.getAdministratorsList();
+            JsonNode jsonObjects = Administrator.jsonAdministratorsListSerialization(objects);
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
@@ -42,7 +42,7 @@ public class Administrators {
     
     public static Result get(Long id) {  
         try {
-            AdministratorRole object = AdministratorRole.findByPropertie("id", id);
+            Administrator object = Administrator.findByPropertie("id", id);
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {
@@ -53,17 +53,17 @@ public class Administrators {
     
     public static Result create() {
         // Get the form from the request
-        Form<AdministratorRole> form = Form.form(AdministratorRole.class,AdministratorRole.creation.class).bindFromRequest();
+        Form<Administrator> form = Form.form(Administrator.class,Administrator.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        AdministratorRole object = form.get();
+        Administrator object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            AdministratorRole.create(object);
+            Administrator.create(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return created(jsonObject);
@@ -77,17 +77,17 @@ public class Administrators {
     
     public static Result update(Long id) {
         // Get the form from the request
-        Form<AdministratorRole> form = Form.form(AdministratorRole.class,AdministratorRole.creation.class).bindFromRequest();
+        Form<Administrator> form = Form.form(Administrator.class,Administrator.creation.class).bindFromRequest();
         // Validate errors
         if(form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
         // Get the object from the form
-        AdministratorRole object = form.get();
+        Administrator object = form.get();
         // Create the object in db
         Ebean.beginTransaction();
         try {
-            AdministratorRole.update(object);
+            Administrator.update(object);
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);
@@ -100,17 +100,17 @@ public class Administrators {
     }
     
     public static Result delete(Long id) {
-        AdministratorRole object;
+        Administrator object;
         // Find the object
         try {
-            object = AdministratorRole.findByPropertie("id", id);
+            object = Administrator.findByPropertie("id", id);
         } catch (Exception e) {
             return notFound("Error deleting object. Object not found");
         }
         // Delete the object from db
         Ebean.beginTransaction();
         try {
-            AdministratorRole.delete(object);
+            Administrator.delete(object);
             Ebean.commitTransaction();
             return ok();            
         } catch (Exception e) {

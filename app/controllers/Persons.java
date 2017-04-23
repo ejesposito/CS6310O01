@@ -10,13 +10,13 @@ import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import models.Administrator;
-import models.AdministratorRole;
+import models.Administrator;
 import models.Instructor;
-import models.InstructorRole;
+import models.Instructor;
 import models.Person;
 import models.Role;
 import models.Student;
-import models.StudentRole;
+import models.Student;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -74,16 +74,13 @@ public class Persons {
         models.Administrator administrator = null;
         JsonNode json = request().body().asJson();
         if (json.get("isAdministrator") != null && json.get("isAdministrator").asBoolean() == true) {
-            object.getRoles().add(new AdministratorRole(null, object));
-            administrator = new models.Administrator(object);
+            object.getRoles().add(new Administrator(null, object));
         }
         if (json.get("isInstructor") != null && json.get("isInstructor").asBoolean() == true) {
-            object.getRoles().add(new InstructorRole(null, object));
-            instructor = new models.Instructor(object);
+            object.getRoles().add(new Instructor(null, object));
         }
         if (json.get("isStudent") != null && json.get("isStudent").asBoolean() == true) {
-            object.getRoles().add(new StudentRole(null, object));
-            student = new models.Student(object);
+            object.getRoles().add(new Student(null, object));
         }
         // Create the object in db
         Ebean.beginTransaction();

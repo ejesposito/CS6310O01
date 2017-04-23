@@ -1,59 +1,62 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import play.db.ebean.Model;
 
 @Entity
-@DiscriminatorValue("INSTRUCTOR")
-public class InstructorRole extends models.Role 
+@Table(name="allocations")
+public class Allocation extends Model 
 {
-
+    
     public interface creation{}
     
-    private static final Finder<Long, InstructorRole> finder = new Finder<>(Long.class, InstructorRole.class);
+    @Id
+    private Long id;
     
-    public InstructorRole () {
-        
-    }
+    @ManyToOne
+    @JoinColumn(name="instructor_id")
+    @JsonBackReference
+    private Instructor instructor;
     
-    public InstructorRole (Long id) {
-        super(id, "INSTRUCTOR");
-    }
+    private Long value;
     
-    public InstructorRole (Long id, Person person) {
-        super(id, "INSTRUCTOR", person);
-    }
+    private static final Finder<Long, Allocation> finder = new Finder<>(Long.class, Allocation.class);
     
-    public static void create (InstructorRole object) throws Exception       
+    public static void create (Allocation object) throws Exception       
     {
         object.save();
     }
     
-    public static void update (InstructorRole object) throws Exception
+    public static void update (Allocation object) throws Exception
     {
         object.update();
     }
     
-    public static void delete (InstructorRole object) throws Exception
+    public static void delete (Allocation object) throws Exception
     {
         object.delete();
     }
     
-    public static InstructorRole findByPropertie(String key,Object obj) throws Exception
+    public static Allocation findByPropertie(String key,Object obj) throws Exception
     {
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<InstructorRole> getInstructorsList () throws Exception
+    public static List<Allocation> getList () throws Exception
     {
         return finder.all();
     }
@@ -63,7 +66,6 @@ public class InstructorRole extends models.Role
      * @return
      * @throws Exception 
      */
-    @Override
     public JsonNode jsonSerialization() throws Exception
     {
         JsonNode jsonError;
@@ -99,7 +101,7 @@ public class InstructorRole extends models.Role
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonInstructorsListSerialization(List<InstructorRole> objects) throws Exception
+    public static JsonNode jsonListSerialization(List<Allocation> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -113,15 +115,57 @@ public class InstructorRole extends models.Role
      * @return
      * @throws Exception 
      */
-    public static InstructorRole jsonDesSerialization(JsonNode jsonObject) throws Exception
+    public static Allocation jsonDesSerialization(JsonNode jsonObject) throws Exception
     {
-        InstructorRole object;
+        Allocation object;
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         mapper.setDateFormat(myDateFormat); 
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        object = mapper.convertValue(jsonObject,InstructorRole.class);
+        object = mapper.convertValue(jsonObject,Allocation.class);
         return object;
+    }
+    
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    /**
+     * @return the instructor
+     */
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    /**
+     * @param instructor the instructor to set
+     */
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+    
+    /**
+     * @return the value
+     */
+    public Long getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(Long value) {
+        this.value = value;
     }
     
 }
