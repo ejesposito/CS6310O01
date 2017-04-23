@@ -56,7 +56,7 @@ create table records (
   comment                   varchar(255),
   student_id                bigint,
   course_session_id         bigint,
-  constraint ck_records_grade check (grade in ('A','B','C','D','E','F')),
+  constraint ck_records_grade check (grade in ('A','B','C','D','F','I')),
   constraint pk_records primary key (id))
 ;
 

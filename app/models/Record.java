@@ -34,10 +34,10 @@ public class Record extends Model
         C("C"),
         @EnumValue("D")
         D("D"),
-        @EnumValue("E")
-        E("E"),
         @EnumValue("F")
-        F("F");
+        F("F"),
+        @EnumValue("I")
+        I("I");
         public String humanFriendlyName;
         private Grade(String humanReadableName) {
             this.humanFriendlyName = humanReadableName;
