@@ -18,6 +18,19 @@ DELETE  /api/person/:id                 controllers.Persons.delete(id: Long)
 
 #Instructors
 GET     /api/instructors                controllers.Instructors.list()
+GET     /api/instructors                controllers.Instructors.get(id: Long)
+POST    /api/instructor                 controllers.Instructors.create()
+PUT     /api/instructor/:id             controllers.Instructors.update(id: Long)
+DELETE  /api/instructor/:id             controllers.Instructors.delete(id: Long)
+
+#Courses
+GET     /api/courses                    controllers.Courses.list()
+GET     /api/course/:id                 controllers.Courses.get(id: Long)
+POST    /api/course                     controllers.Courses.create()
+PUT     /api/course/:id                 controllers.Courses.update(id: Long)
+DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
+
+#Students
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

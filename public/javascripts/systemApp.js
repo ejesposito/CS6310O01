@@ -27,6 +27,10 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.newPerson = {};
     $scope.selectedPerson = {};
     
+    $scope.courses = [];
+    $scope.newCourse = {};
+    $scope.selectedCourse = {};
+    
     var config = {
         headers : {
             'Content-Type' : 'application/json',
@@ -95,7 +99,30 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
         return stringRoles;
     };
     
+    $scope.listCourses = function() {
+        $http.get('/api/courses', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.courses = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });  
+    };
+    
+    $scope.createCourse = function() {
+        $http.post('/api/course', $scope.newCourse, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCourses();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+    
     $scope.listPersons();
+    $scope.listCourses();
         
 }]);
 
@@ -123,7 +150,19 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
             });  
     };
     
+    $scope.listCourses = function() {
+        $http.get('/api/courses', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.courses = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });  
+    };
+    
     $scope.listInstructors();
+    $scope.listCourses();
         
 }]);
 
