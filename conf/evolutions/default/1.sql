@@ -11,6 +11,7 @@ create table capacities (
 
 create table courses (
   id                        bigint auto_increment not null,
+  title                     varchar(255),
   constraint pk_courses primary key (id))
 ;
 

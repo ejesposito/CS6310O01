@@ -19,13 +19,14 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue("INSTRUCTOR")
 public class Instructor extends models.Role 
 {
+    
     public interface creation{}
     
     @ManyToMany(mappedBy = "instructors")
     private List<CourseSession> coursesSessions;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "instructor")
-    private List<Capacity> capacities;
+    private List<Allocation> allocations;
     
     private static final Finder<Long, Instructor> finder = new Finder<>(Long.class, Instructor.class);
     
@@ -147,17 +148,17 @@ public class Instructor extends models.Role
     }
 
     /**
-     * @return the capacities
+     * @return the allocations
      */
-    public List<Capacity> getCapacities() {
-        return capacities;
+    public List<Allocation> getAllocations() {
+        return allocations;
     }
 
     /**
-     * @param capacities the capacities to set
+     * @param allocations the allocations to set
      */
-    public void setCapacities(List<Capacity> capacities) {
-        this.capacities = capacities;
+    public void setAllocations(List<Allocation> allocations) {
+        this.allocations = allocations;
     }
     
 }

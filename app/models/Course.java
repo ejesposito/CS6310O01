@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 @Entity
@@ -27,6 +28,7 @@ public class Course extends Model
     @Id
     private Long id;
     
+    @Constraints.Required(groups = creation.class)
     private String title;
     
     private String description;
