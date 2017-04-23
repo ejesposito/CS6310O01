@@ -142,6 +142,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
     
     $scope.setClickedRow = function(index) {
         $scope.selectedRow = index;
+        $scope.selectedInstructor = $scope.instructors[index];
     }
     
     $scope.listInstructors = function() {
@@ -149,6 +150,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
             .success(function (data, status, headers, config) {
                 console.log(JSON.stringify(data) + " " + status);
                 $scope.instructors = data;
+                $scope.selectedInstructor = $scope.instructors[$scope.selectedRow];
             })
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
