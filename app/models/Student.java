@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -26,6 +28,9 @@ public class Student extends models.Role
     private List<Record> record;
     
     @ManyToMany
+    @JoinTable(name = "student_courses", joinColumns = {
+        @JoinColumn(name = "student_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "courses_id")})
     private List<Course> programCourses;
     
     private static final Finder<Long, Student> finder = new Finder<>(Long.class, Student.class);

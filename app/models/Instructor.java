@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -22,7 +24,10 @@ public class Instructor extends models.Role
     
     public interface creation{}
     
-    @ManyToMany(mappedBy = "instructors")
+    @ManyToMany
+    @JoinTable(name = "instructor_courses_sessions", joinColumns = {
+        @JoinColumn(name = "instructor_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "course_session_id")})
     private List<CourseSession> coursesSessions;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "instructor")
