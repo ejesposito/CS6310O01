@@ -12,7 +12,6 @@ create table allocations (
 
 create table courses (
   id                        bigint auto_increment not null,
-  program_id                bigint not null,
   title                     varchar(255),
   description               varchar(255),
   in_fall                   tinyint(1) default 0,
@@ -34,7 +33,6 @@ create table courses_sessions (
 
 create table persons (
   id                        bigint auto_increment not null,
-  program_id                bigint not null,
   name                      varchar(255),
   address                   varchar(255),
   phone                     varchar(255),
@@ -75,6 +73,18 @@ create table course_prerequisites (
   constraint pk_course_prerequisites primary key (course_id, prerequisite_id))
 ;
 
+create table programs_persons (
+  programs_id                    bigint not null,
+  persons_id                     bigint not null,
+  constraint pk_programs_persons primary key (programs_id, persons_id))
+;
+
+create table programs_courses (
+  programs_id                    bigint not null,
+  courses_id                     bigint not null,
+  constraint pk_programs_courses primary key (programs_id, courses_id))
+;
+
 create table instructor_courses_sessions (
   instructor_id                  bigint not null,
   course_session_id              bigint not null,
@@ -88,24 +98,28 @@ create table student_courses (
 ;
 alter table allocations add constraint fk_allocations_instructor_1 foreign key (instructor_id) references roles (id) on delete restrict on update restrict;
 create index ix_allocations_instructor_1 on allocations (instructor_id);
-alter table courses add constraint fk_courses_programs_2 foreign key (program_id) references programs (id) on delete restrict on update restrict;
-create index ix_courses_programs_2 on courses (program_id);
-alter table courses_sessions add constraint fk_courses_sessions_course_3 foreign key (course_id) references courses (id) on delete restrict on update restrict;
-create index ix_courses_sessions_course_3 on courses_sessions (course_id);
-alter table persons add constraint fk_persons_programs_4 foreign key (program_id) references programs (id) on delete restrict on update restrict;
-create index ix_persons_programs_4 on persons (program_id);
-alter table records add constraint fk_records_student_5 foreign key (student_id) references roles (id) on delete restrict on update restrict;
-create index ix_records_student_5 on records (student_id);
-alter table records add constraint fk_records_courseSession_6 foreign key (course_session_id) references courses_sessions (id) on delete restrict on update restrict;
-create index ix_records_courseSession_6 on records (course_session_id);
-alter table roles add constraint fk_roles_person_7 foreign key (person_id) references persons (id) on delete restrict on update restrict;
-create index ix_roles_person_7 on roles (person_id);
+alter table courses_sessions add constraint fk_courses_sessions_course_2 foreign key (course_id) references courses (id) on delete restrict on update restrict;
+create index ix_courses_sessions_course_2 on courses_sessions (course_id);
+alter table records add constraint fk_records_student_3 foreign key (student_id) references roles (id) on delete restrict on update restrict;
+create index ix_records_student_3 on records (student_id);
+alter table records add constraint fk_records_courseSession_4 foreign key (course_session_id) references courses_sessions (id) on delete restrict on update restrict;
+create index ix_records_courseSession_4 on records (course_session_id);
+alter table roles add constraint fk_roles_person_5 foreign key (person_id) references persons (id) on delete restrict on update restrict;
+create index ix_roles_person_5 on roles (person_id);
 
 
 
 alter table course_prerequisites add constraint fk_course_prerequisites_courses_01 foreign key (course_id) references courses (id) on delete restrict on update restrict;
 
 alter table course_prerequisites add constraint fk_course_prerequisites_courses_02 foreign key (prerequisite_id) references courses (id) on delete restrict on update restrict;
+
+alter table programs_persons add constraint fk_programs_persons_programs_01 foreign key (programs_id) references programs (id) on delete restrict on update restrict;
+
+alter table programs_persons add constraint fk_programs_persons_persons_02 foreign key (persons_id) references persons (id) on delete restrict on update restrict;
+
+alter table programs_courses add constraint fk_programs_courses_programs_01 foreign key (programs_id) references programs (id) on delete restrict on update restrict;
+
+alter table programs_courses add constraint fk_programs_courses_courses_02 foreign key (courses_id) references courses (id) on delete restrict on update restrict;
 
 alter table instructor_courses_sessions add constraint fk_instructor_courses_sessions_roles_01 foreign key (instructor_id) references roles (id) on delete restrict on update restrict;
 
@@ -132,6 +146,10 @@ drop table instructor_courses_sessions;
 drop table persons;
 
 drop table programs;
+
+drop table programs_persons;
+
+drop table programs_courses;
 
 drop table records;
 

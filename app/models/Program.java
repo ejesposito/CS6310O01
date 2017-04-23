@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import play.db.ebean.Model;
 
@@ -48,10 +49,10 @@ public class Program extends Model
     
     private Term currentTerm;
     
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     private List<Person> persons;
     
-    @OneToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade=CascadeType.ALL)
     private List<Course> courses;
     
     private static final Finder<Long, Program> finder = new Finder<>(Long.class, Program.class);
