@@ -1,3 +1,11 @@
+<style>
+    .selected {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
 <div ng-controller="instructorCtrl">
 
     <h2>Instructor View</h2>
@@ -11,7 +19,7 @@
                          <th class="text-center">Person ID</th>
                          <th class="text-center">Name</th>
                      </tr>
-                     <tr ng-repeat="instructor in instructors | orderBy:'id' ">
+                     <tr ng-repeat="instructor in instructors | orderBy:'id'" ng-class="'selected':$index == selectedRow" ng-click="setClickedRow($index)">
                          <td>{{instructor.id }}</td>
                          <td>{{instructor.person_id}}</td>
                          <td>{{instructor.person.name}}</td>
