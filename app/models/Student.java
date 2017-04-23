@@ -38,6 +38,24 @@ public class Student extends models.Role
     public Student () {
         
     }
+
+    public boolean hasPrereqsForCourse(Course course) {
+        for (Course prereq : course.getPrerequisites()) {
+            boolean foundPreReq = false;
+            for (Record record : this.record) {
+                if (record.getCourseSession().getCourse().getId() == prereq.getId()) {
+                    if (!record.getGrade().humanFriendlyName.equals("F") && !record.getGrade().humanFriendlyName.equals("I")) {
+                        foundPreReq = true;
+                    }
+                }
+            }
+            if (!foundPreReq) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     
     public Student (Long id) {
         super(id, "STUDENT");

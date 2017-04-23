@@ -45,7 +45,15 @@ public class CourseSession extends Model
     private Course course;
     
     private static final Finder<Long, CourseSession> finder = new Finder<>(Long.class, CourseSession.class);
-    
+
+    public boolean hasCourseRoom() {
+        if (this.totalCapacity < this.currentAllocation) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void create (CourseSession object) throws Exception       
     {
         object.save();
