@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.annotation.EnumValue;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import play.db.ebean.Model;
 
 @Entity
@@ -21,8 +24,35 @@ public class Program extends Model
 
     public interface creation{}
     
+    public enum Term {
+        @EnumValue("FALL")
+        FALL("FALL"),
+        @EnumValue("SPRING")
+        SPRING("SPRING"),
+        @EnumValue("SUMMER")
+        SUMMER("SUMMER");
+        public String humanFriendlyName;
+        private Term(String humanReadableName) {
+            this.humanFriendlyName = humanReadableName;
+        }
+        @Override
+        public String toString() { return humanFriendlyName; }
+    }
+    
     @Id
     private Long id;
+    
+    private String name;
+    
+    private Long currentYear;
+    
+    private Term currentTerm;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Person> persons;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Course> courses;
     
     private static final Finder<Long, Program> finder = new Finder<>(Long.class, Program.class);
     
@@ -128,6 +158,76 @@ public class Program extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+     /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the currentYear
+     */
+    public Long getCurrentYear() {
+        return currentYear;
+    }
+
+    /**
+     * @param currentYear the currentYear to set
+     */
+    public void setCurrentYear(Long currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    /**
+     * @return the currentTerm
+     */
+    public Term getCurrentTerm() {
+        return currentTerm;
+    }
+
+    /**
+     * @param currentTerm the currentTerm to set
+     */
+    public void setCurrentTerm(Term currentTerm) {
+        this.currentTerm = currentTerm;
+    }
+
+    /**
+     * @return the persons
+     */
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    /**
+     * @param persons the persons to set
+     */
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
+    /**
+     * @return the courses
+     */
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    /**
+     * @param courses the courses to set
+     */
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
     
 }

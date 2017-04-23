@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import play.db.ebean.Model;
 
 @Entity
@@ -23,6 +26,22 @@ public class Course extends Model
     
     @Id
     private Long id;
+    
+    private String title;
+    
+    private String description;
+    
+    private Boolean inFall;
+    
+    private Boolean inSpring;
+    
+    private Boolean inSummer;
+    
+    @ManyToMany
+    private List<Course> prerequisites;
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "course")
+    private List<CourseSession> sessions;
     
     private static final Finder<Long, Course> finder = new Finder<>(Long.class, Course.class);
     
@@ -128,6 +147,104 @@ public class Course extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @return the inFall
+     */
+    public Boolean getInFall() {
+        return inFall;
+    }
+
+    /**
+     * @param inFall the inFall to set
+     */
+    public void setInFall(Boolean inFall) {
+        this.inFall = inFall;
+    }
+
+    /**
+     * @return the inSpring
+     */
+    public Boolean getInSpring() {
+        return inSpring;
+    }
+
+    /**
+     * @param inSpring the inSpring to set
+     */
+    public void setInSpring(Boolean inSpring) {
+        this.inSpring = inSpring;
+    }
+
+    /**
+     * @return the inSummer
+     */
+    public Boolean getInSummer() {
+        return inSummer;
+    }
+
+    /**
+     * @param inSummer the inSummer to set
+     */
+    public void setInSummer(Boolean inSummer) {
+        this.inSummer = inSummer;
+    }
+
+    /**
+     * @return the prerequisites
+     */
+    public List<Course> getPrerequisites() {
+        return prerequisites;
+    }
+
+    /**
+     * @param prerequisites the prerequisites to set
+     */
+    public void setPrerequisites(List<Course> prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    /**
+     * @return the sessions
+     */
+    public List<CourseSession> getSessions() {
+        return sessions;
+    }
+
+    /**
+     * @param sessions the sessions to set
+     */
+    public void setSessions(List<CourseSession> sessions) {
+        this.sessions = sessions;
     }
     
 }

@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,17 +13,38 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="courses_sessions")
 public class CourseSession extends Model 
 {
-
+    
     public interface creation{}
     
     @Id
     private Long id;
+    
+    private Long sessionYear;
+    
+    private Program.Term sessionTerm;
+    
+    private Long totalCapacity;
+    
+    private Long currentAllocation;
+    
+    @ManyToMany
+    @JoinColumn(name="instructor_id")
+    @JsonBackReference
+    private List<Instructor> instructors;
+    
+    @ManyToOne
+    @JoinColumn(name="course_id")
+    @JsonBackReference
+    private Instructor course;
     
     private static final Finder<Long, CourseSession> finder = new Finder<>(Long.class, CourseSession.class);
     
@@ -128,6 +150,90 @@ public class CourseSession extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the instructors
+     */
+    public List<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    /**
+     * @param instructors the instructors to set
+     */
+    public void setInstructors(List<Instructor> instructors) {
+        this.instructors = instructors;
+    }
+ 
+    /**
+     * @return the sessionYear
+     */
+    public Long getSessionYear() {
+        return sessionYear;
+    }
+
+    /**
+     * @param sessionYear the sessionYear to set
+     */
+    public void setSessionYear(Long sessionYear) {
+        this.sessionYear = sessionYear;
+    }
+
+    /**
+     * @return the sessionTerm
+     */
+    public Program.Term getSessionTerm() {
+        return sessionTerm;
+    }
+
+    /**
+     * @param sessionTerm the sessionTerm to set
+     */
+    public void setSessionTerm(Program.Term sessionTerm) {
+        this.sessionTerm = sessionTerm;
+    }
+
+    /**
+     * @return the totalCapacity
+     */
+    public Long getTotalCapacity() {
+        return totalCapacity;
+    }
+
+    /**
+     * @param totalCapacity the totalCapacity to set
+     */
+    public void setTotalCapacity(Long totalCapacity) {
+        this.totalCapacity = totalCapacity;
+    }
+
+    /**
+     * @return the currentAllocation
+     */
+    public Long getCurrentAllocation() {
+        return currentAllocation;
+    }
+
+    /**
+     * @param currentAllocation the currentAllocation to set
+     */
+    public void setCurrentAllocation(Long currentAllocation) {
+        this.currentAllocation = currentAllocation;
+    }
+
+    /**
+     * @return the course
+     */
+    public Instructor getCourse() {
+        return course;
+    }
+
+    /**
+     * @param course the course to set
+     */
+    public void setCourse(Instructor course) {
+        this.course = course;
     }
     
 }

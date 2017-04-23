@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,17 +13,26 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
 @Entity
 @Table(name="capacities")
 public class Capacity extends Model 
 {
-
+    
     public interface creation{}
     
     @Id
     private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name="instructor_id")
+    @JsonBackReference
+    private Instructor instructor;
+    
+    private Long value;
     
     private static final Finder<Long, Capacity> finder = new Finder<>(Long.class, Capacity.class);
     
@@ -128,6 +138,34 @@ public class Capacity extends Model
      */
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    /**
+     * @return the instructor
+     */
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    /**
+     * @param instructor the instructor to set
+     */
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+    
+    /**
+     * @return the value
+     */
+    public Long getValue() {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(Long value) {
+        this.value = value;
     }
     
 }

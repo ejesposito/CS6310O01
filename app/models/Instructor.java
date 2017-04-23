@@ -5,28 +5,27 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import javax.persistence.ManyToOne;
-import play.db.ebean.Model;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
-@Table(name="instructors")
-public class Instructor extends Model 
+@DiscriminatorValue("INSTRUCTOR")
+public class Instructor extends models.Role 
 {
-
     public interface creation{}
     
-    @Id
-    private Long id;
+    @ManyToMany(mappedBy = "instructors")
+    private List<CourseSession> coursesSessions;
     
-    @ManyToOne
-    private Person person;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "instructor")
+    private List<Capacity> capacities;
     
     private static final Finder<Long, Instructor> finder = new Finder<>(Long.class, Instructor.class);
     
@@ -34,8 +33,12 @@ public class Instructor extends Model
         
     }
     
-    public Instructor (Person person) {
-        this.person = person;
+    public Instructor (Long id) {
+        super(id, "INSTRUCTOR");
+    }
+    
+    public Instructor (Long id, Person person) {
+        super(id, "INSTRUCTOR", person);
     }
     
     public static void create (Instructor object) throws Exception       
@@ -58,7 +61,7 @@ public class Instructor extends Model
         return finder.where().eq(key,obj).findUnique();
     }
     
-    public static List<Instructor> getList () throws Exception
+    public static List<Instructor> getInstructorsList () throws Exception
     {
         return finder.all();
     }
@@ -68,6 +71,7 @@ public class Instructor extends Model
      * @return
      * @throws Exception 
      */
+    @Override
     public JsonNode jsonSerialization() throws Exception
     {
         JsonNode jsonError;
@@ -103,7 +107,7 @@ public class Instructor extends Model
      * @return
      * @throws Exception 
      */
-    public static JsonNode jsonListSerialization(List<Instructor> objects) throws Exception
+    public static JsonNode jsonInstructorsListSerialization(List<Instructor> objects) throws Exception
     {
         ObjectMapper mapper = new ObjectMapper();
         DateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -129,31 +133,31 @@ public class Instructor extends Model
     }
     
     /**
-     * @return the id
+     * @return the coursesSessions
      */
-    public Long getId() {
-        return id;
+    public List<CourseSession> getCoursesSessions() {
+        return coursesSessions;
     }
 
     /**
-     * @param id the id to set
+     * @param coursesSessions the coursesSessions to set
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-        /**
-     * @return the person
-     */
-    public Person getPerson() {
-        return person;
+    public void setCoursesSessions(List<CourseSession> coursesSessions) {
+        this.coursesSessions = coursesSessions;
     }
 
     /**
-     * @param person the person to set
+     * @return the capacities
      */
-    public void setPerson(Person person) {
-        this.person = person;
+    public List<Capacity> getCapacities() {
+        return capacities;
+    }
+
+    /**
+     * @param capacities the capacities to set
+     */
+    public void setCapacities(List<Capacity> capacities) {
+        this.capacities = capacities;
     }
     
 }
