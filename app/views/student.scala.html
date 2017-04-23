@@ -3,10 +3,10 @@
     <h2>Student View</h2>
     <h3>Change Student</h3>
     <select>
-        <option ng-repeat="student in students" ng-model="currentStudentId" ng-change="changeStudent()">{{ student.name }}</option>
+        <option ng-repeat="student in students" ng-model="currentStudent" ng-change="">{{ student.person.name }}</option>
     </select>
     <h3>Student Information</h3>
-    <h4>Student Id: {{ currentStudent.id }}</h4>
+    <h4>Student Id: {{ currentStudent.person.id }}</h4>
     <h4>Name: {{ currentStudent.person.name }}</h4>
     <h4>Address: {{ currentStudent.person.address }}</h4>
 

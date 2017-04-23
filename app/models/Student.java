@@ -87,6 +87,8 @@ public class Student extends models.Role
     
     public static List<Student> getStudentsList () throws Exception
     {
+        
+        
         return finder.all();
     }
     
