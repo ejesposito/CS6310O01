@@ -12,6 +12,7 @@ create table allocations (
 
 create table courses (
   id                        bigint auto_increment not null,
+  uuid                      bigint,
   title                     varchar(255),
   description               varchar(255),
   in_fall                   tinyint(1) default 0,
@@ -33,6 +34,7 @@ create table courses_sessions (
 
 create table persons (
   id                        bigint auto_increment not null,
+  uuid                      bigint,
   name                      varchar(255),
   address                   varchar(255),
   phone                     varchar(255),
@@ -67,6 +69,12 @@ create table roles (
 ;
 
 
+create table allocation_courses_sessions (
+  allocation_id                  bigint not null,
+  course_session_id              bigint not null,
+  constraint pk_allocation_courses_sessions primary key (allocation_id, course_session_id))
+;
+
 create table course_prerequisites (
   course_id                      bigint not null,
   prerequisite_id                bigint not null,
@@ -83,12 +91,6 @@ create table programs_courses (
   programs_id                    bigint not null,
   courses_id                     bigint not null,
   constraint pk_programs_courses primary key (programs_id, courses_id))
-;
-
-create table instructor_courses_sessions (
-  instructor_id                  bigint not null,
-  course_session_id              bigint not null,
-  constraint pk_instructor_courses_sessions primary key (instructor_id, course_session_id))
 ;
 
 create table student_courses (
@@ -109,6 +111,10 @@ create index ix_roles_person_5 on roles (person_id);
 
 
 
+alter table allocation_courses_sessions add constraint fk_allocation_courses_sessions_allocations_01 foreign key (allocation_id) references allocations (id) on delete restrict on update restrict;
+
+alter table allocation_courses_sessions add constraint fk_allocation_courses_sessions_courses_sessions_02 foreign key (course_session_id) references courses_sessions (id) on delete restrict on update restrict;
+
 alter table course_prerequisites add constraint fk_course_prerequisites_courses_01 foreign key (course_id) references courses (id) on delete restrict on update restrict;
 
 alter table course_prerequisites add constraint fk_course_prerequisites_courses_02 foreign key (prerequisite_id) references courses (id) on delete restrict on update restrict;
@@ -121,10 +127,6 @@ alter table programs_courses add constraint fk_programs_courses_programs_01 fore
 
 alter table programs_courses add constraint fk_programs_courses_courses_02 foreign key (courses_id) references courses (id) on delete restrict on update restrict;
 
-alter table instructor_courses_sessions add constraint fk_instructor_courses_sessions_roles_01 foreign key (instructor_id) references roles (id) on delete restrict on update restrict;
-
-alter table instructor_courses_sessions add constraint fk_instructor_courses_sessions_courses_sessions_02 foreign key (course_session_id) references courses_sessions (id) on delete restrict on update restrict;
-
 alter table student_courses add constraint fk_student_courses_roles_01 foreign key (student_id) references roles (id) on delete restrict on update restrict;
 
 alter table student_courses add constraint fk_student_courses_courses_02 foreign key (courses_id) references courses (id) on delete restrict on update restrict;
@@ -135,13 +137,13 @@ SET FOREIGN_KEY_CHECKS=0;
 
 drop table allocations;
 
+drop table allocation_courses_sessions;
+
 drop table courses;
 
 drop table course_prerequisites;
 
 drop table courses_sessions;
-
-drop table instructor_courses_sessions;
 
 drop table persons;
 

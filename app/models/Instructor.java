@@ -24,12 +24,6 @@ public class Instructor extends models.Role
     
     public interface creation{}
     
-    @ManyToMany
-    @JoinTable(name = "instructor_courses_sessions", joinColumns = {
-        @JoinColumn(name = "instructor_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "course_session_id")})
-    private List<CourseSession> coursesSessions;
-    
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "instructor")
     private List<Allocation> allocations;
     
@@ -136,20 +130,6 @@ public class Instructor extends models.Role
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         object = mapper.convertValue(jsonObject,Instructor.class);
         return object;
-    }
-    
-    /**
-     * @return the coursesSessions
-     */
-    public List<CourseSession> getCoursesSessions() {
-        return coursesSessions;
-    }
-
-    /**
-     * @param coursesSessions the coursesSessions to set
-     */
-    public void setCoursesSessions(List<CourseSession> coursesSessions) {
-        this.coursesSessions = coursesSessions;
     }
 
     /**

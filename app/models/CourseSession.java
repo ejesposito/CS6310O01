@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.ExpressionList;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import models.Program.Term;
 import play.db.ebean.Model;
 
 @Entity
@@ -37,7 +39,7 @@ public class CourseSession extends Model
     private Long currentAllocation;
     
     @ManyToMany(mappedBy = "coursesSessions")
-    private List<Instructor> instructors;
+    private List<Allocation> allocations;
     
     @ManyToOne
     @JoinColumn(name="course_id")
@@ -46,6 +48,16 @@ public class CourseSession extends Model
     
     private static final Finder<Long, CourseSession> finder = new Finder<>(Long.class, CourseSession.class);
 
+    public CourseSession () {
+        
+    }
+    
+    public CourseSession (Long sessionYear, Term sessionTerm, Course course) {
+        this.sessionYear = sessionYear;
+        this.sessionTerm = sessionTerm;
+        this.course = course;
+    }
+    
     public boolean hasCourseRoom() {
         if (this.totalCapacity < this.currentAllocation) {
             return true;
@@ -73,6 +85,25 @@ public class CourseSession extends Model
     {
         return finder.where().eq(key,obj).findUnique();
     }
+    
+    /**
+     * This method search in the database looking for a unique object using the
+     * key and the value.
+     * @param keys
+     * @param values
+     * @return dAttributePermission
+     * @throws java.lang.Exception 
+     */
+    public static CourseSession findByProperties(List<String> keys, List<Object> values)  
+        throws Exception {
+        
+        ExpressionList<CourseSession> expList = finder.where();
+            
+        for(int i = 0; i < keys.size(); i++){
+            expList.eq(keys.get(i), values.get(i));
+        }
+        return expList.findUnique();         
+    }    
     
     public static List<CourseSession> getList () throws Exception
     {
@@ -159,17 +190,17 @@ public class CourseSession extends Model
     }
     
     /**
-     * @return the instructors
+     * @return the allocations
      */
-    public List<Instructor> getInstructors() {
-        return instructors;
+    public List<Allocation> getAllocations() {
+        return allocations;
     }
 
     /**
-     * @param instructors the instructors to set
+     * @param allocations the allocations to set
      */
-    public void setInstructors(List<Instructor> instructors) {
-        this.instructors = instructors;
+    public void setAllocations(List<Allocation> allocations) {
+        this.allocations = allocations;
     }
  
     /**

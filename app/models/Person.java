@@ -19,11 +19,13 @@ import play.db.ebean.Model;
 @Table(name="persons")
 public class Person extends Model 
 {
-
+    
     public interface creation{}
     
     @Id
     private Long id;
+    
+    private Long uuid;
     
     @Required(groups = creation.class)
     private String name;
@@ -44,7 +46,8 @@ public class Person extends Model
         
     }
     
-    public Person (String name, String address, String phone) {
+    public Person (Long uuid, String name, String address, String phone) {
+        this.uuid = uuid;
         this.id = null;
         this.name = name;
         this.address = address;
@@ -192,4 +195,18 @@ public class Person extends Model
         this.roles = roles;
     }
     
+    /**
+     * @return the uuid
+     */
+    public Long getUuid() {
+        return uuid;
+    }
+
+    /**
+     * @param uuid the uuid to set
+     */
+    public void setUuid(Long uuid) {
+        this.uuid = uuid;
+    }
+
 }

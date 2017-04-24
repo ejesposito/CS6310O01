@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
@@ -31,6 +33,12 @@ public class Allocation extends Model
     @JoinColumn(name="instructor_id")
     @JsonBackReference
     private Instructor instructor;
+    
+    @ManyToMany
+    @JoinTable(name = "allocation_courses_sessions", joinColumns = {
+        @JoinColumn(name = "allocation_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "course_session_id")})
+    private List<CourseSession> coursesSessions;
     
     private Long value;
     
@@ -166,6 +174,20 @@ public class Allocation extends Model
      */
     public void setValue(Long value) {
         this.value = value;
+    }
+    
+    /**
+     * @return the coursesSessions
+     */
+    public List<CourseSession> getCoursesSessions() {
+        return coursesSessions;
+    }
+
+    /**
+     * @param coursesSessions the coursesSessions to set
+     */
+    public void setCoursesSessions(List<CourseSession> coursesSessions) {
+        this.coursesSessions = coursesSessions;
     }
     
 }

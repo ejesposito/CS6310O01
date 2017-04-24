@@ -15,11 +15,21 @@ public class Global extends GlobalSettings
     @Override 
     public void onStart(Application app) 
     {        
-        // Create the program for the university
-        models.Program program = new models.Program();
-        program.setName("GTI - Online Program Test");
-        program.setCurrentTerm(Program.Term.SUMMER);
-        program.setCurrentYear(2017L);
+        // Serch for the uinique program
+        models.Program program = null;
+        try {
+            program = Program.findByPropertie("id", 1);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(Global.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Create the program for the 
+        if (program == null) {
+            program = new models.Program();
+            program.setName("GTI - Online Program Test");
+            program.setCurrentTerm(Program.Term.SUMMER);
+            program.setCurrentYear(2017L);    
+        }
         try {
             models.Program.create(program);
         } catch (Exception e) {

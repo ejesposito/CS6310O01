@@ -30,6 +30,8 @@ public class Course extends Model
     @Id
     private Long id;
     
+    private Long uuid;
+    
     @Constraints.Required(groups = creation.class)
     private String title;
     
@@ -54,6 +56,16 @@ public class Course extends Model
     private List<CourseSession> sessions;
     
     private static final Finder<Long, Course> finder = new Finder<>(Long.class, Course.class);
+    
+    public Course () {
+        
+    }
+    
+    public Course (Long uuid, String title) {
+        this.id = null;
+        this.uuid = uuid;
+        this.title = title;
+    }
     
     public static void create (Course object) throws Exception       
     {
@@ -255,6 +267,20 @@ public class Course extends Model
      */
     public void setSessions(List<CourseSession> sessions) {
         this.sessions = sessions;
+    }
+    
+    /**
+     * @return the uuid
+     */
+    public Long getUuid() {
+        return uuid;
+    }
+
+    /**
+     * @param uuid the uuid to set
+     */
+    public void setUuid(Long uuid) {
+        this.uuid = uuid;
     }
     
 }
