@@ -8,6 +8,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import models.Instructor;
 import play.Logger;
@@ -33,6 +34,13 @@ public class Instructors {
         try {
             List<Instructor> objects = Instructor.getInstructorsList();
             JsonNode jsonObjects = Instructor.jsonInstructorsListSerialization(objects);
+            if (jsonObjects.isArray()) {
+                int i = 0;
+                for (JsonNode object : jsonObjects) {
+                    ((ObjectNode)object).put("person",objects.get(i).getPerson().jsonSerialization());
+                    i++;
+                }
+            }
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);
