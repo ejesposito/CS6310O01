@@ -26,7 +26,12 @@ systemApp.config(['$routeProvider', function($routeProvider) {
       .when('/student', {
         templateUrl: '/student',
         controller: 'studentCtrl'
-      });
+      })
+      .otherwise({
+        templateUrl: '/administrator',
+        controller: 'administratorCtrl' 
+    });
+      
 }]);
 
 systemApp.controller('mainCtrl', ['$scope', '$route', '$routeParams', function ($scope, $route, $routeParams) {
@@ -35,6 +40,7 @@ systemApp.controller('mainCtrl', ['$scope', '$route', '$routeParams', function (
 
 systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, $http) {
     
+    $scope.program = {};
     $scope.persons = [];
     $scope.newPerson = {};
     $scope.selectedPerson = {};
@@ -59,6 +65,18 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
                 $scope.listPersons();
+            })
+            .error(function (data, status, header, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.getProgram = function() {
+        $http.get('/api/program/1', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.program = data;
+                $scope.persons = data;
             })
             .error(function (data, status, header, config) {
                 //console.log(JSON.stringify(data) + " " + status);
@@ -227,6 +245,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             });
     };
 
+    $scope.getProgram();
     $scope.listPersons();
     $scope.listCourses();
     $scope.listCoursesSessions();
@@ -269,7 +288,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
     $scope.listInstructors = function() {
         $http.get('/api/instructors', config)
             .success(function (data, status, headers, config) {
-                //console.log(JSON.stringify(data) + " " + status);
+                console.log(JSON.stringify(data) + " " + status);
                 $scope.instructors = data;
                 $scope.selectedInstructor = $scope.instructors[$scope.selectedRow];
             })

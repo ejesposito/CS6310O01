@@ -15,6 +15,11 @@ GET     /sessions                       controllers.Application.sessionsView()
 GET     /loadCSV                        controllers.Application.loadCSVData()
 
 # APIs
+
+# Program
+GET     /api/program/:id                controllers.Programs.get(id: Long)
+PUT     /api/program/:id                controllers.Programs.update(id: Long)
+
 # Persons
 GET     /api/persons                    controllers.Persons.list()
 GET     /api/person/:id                 controllers.Persons.get(id: Long)
@@ -42,7 +47,6 @@ GET     /api/course/:id                 controllers.Courses.get(id: Long)
 POST    /api/course                     controllers.Courses.create()
 PUT     /api/course/:id                 controllers.Courses.update(id: Long)
 DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
-
 
 # Course Sessions
 GET     /api/coursesessions                    controllers.CourseSessions.list()

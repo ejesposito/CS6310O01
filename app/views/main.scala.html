@@ -22,18 +22,20 @@
     <body>
         <div ng-controller="mainCtrl" class="container">
             <div class="row">
-                <p>University online program</p>
                 <div class="col-md-3">
-                    <ul> 
-                        <li><a href="#administrator">Administrator View</a></li>
-                        <ul>
-                            <li><a href="#persons">Persons</a></li>
-                            <li><a href="#courses">Courses</a></li>
-                            <li><a href="#sessions">Courses Sessions</a></li>
+                    <div>
+                        <h2>Menu</h2>
+                        <ul> 
+                            <li><a href="#administrator">Administrator View</a></li>
+                            <ul>
+                                <li><a href="#persons">Persons</a></li>
+                                <li><a href="#courses">Courses</a></li>
+                                <li><a href="#sessions">Courses Sessions</a></li>
+                            </ul>
+                            <li><a href="#instructor">Instructor View</a></li>
+                            <li><a href="#student">Student View</a></li>
                         </ul>
-                        <li><a href="#instructor">Instructor View</a></li>
-                        <li><a href="#student">Student View</a></li>
-                    </ul>
+                    </div>
                 </div>
                 <div class="col-md-9">
                     <div ng-view></div>
