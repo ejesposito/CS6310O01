@@ -1,0 +1,80 @@
+<div ng-controller="administratorCtrl">
+    <h2>Courses</h2>
+    <h3>Create courses</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-3 form-group">
+                    <h4>UUID</h4>
+                        <input ng-model="newCourse.uuid" type="number" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Title</h4>
+                    <input ng-model="newCourse.title" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-2 form-group">
+                    <h4>Fall</h4>
+                    <input ng-model="newCourse.inFall" type="checkbox"/>
+                </div>
+                <div class="col-md-2 form-group">
+                    <h4>Spring</h4>
+                    <input ng-model="newCourse.inSpring" type="checkbox"/>
+                </div>
+                <div class="col-md-2 form-group">
+                    <h4>Summer</h4>
+                    <input ng-model="newCourse.inSummer" type="checkbox"/>
+                </div>
+                <div class="col-md-2 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="createCourse()">Create course</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>Update or delete person</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-4 form-group">
+                    <h4>Select</h4>
+                    <select ng-model="selectedCourse" ng-options="course as course.title for course in courses" ng-change="selectedCourseChange()" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <h4>UUID</h4>
+                        <input ng-model="selectedCourse.uuid" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-4 form-group">
+                    <h4>Title</h4>
+                    <input ng-model="selectedCourse.title" type="text" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-2 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="updateCourse()">Update course</button>
+                </div>
+                <div class="col-md-2 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="deleteCourse()">Delete course</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>List Courses</h3>
+        <div class="row">
+             <div class="col-md-12">
+                 <table class="table table-hover text-center">
+                     <tr>
+                         <th class="text-center">UUID</th>
+                         <th class="text-center">Title</th>
+                         <th class="text-center">Terms</th>
+                     </tr>
+                     <tr ng-repeat="course in courses | orderBy:'id' ">
+                         <td>{{ course.uuid }}</td>
+                         <td>{{ course.title }}</td>
+                         <td>{{ getTerms(course) }}</td>
+                    </tr>
+                 </table>
+             </div>
+        </div>
+</div>
+
+
+
+

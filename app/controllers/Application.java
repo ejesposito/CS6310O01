@@ -40,6 +40,18 @@ public class Application extends Controller {
         return ok(student.render());
     }
     
+    public static Result personsView() {
+        return ok(persons.render());
+    }
+        
+    public static Result coursesView() {
+        return ok(courses.render());
+    }
+            
+    public static Result sessionsView() {
+        return ok(sessions.render());
+    }
+    
      public static Result loadCSVData() {
         // Parsing and creation off all the objects in RAM
         String studentsCSVFilePath = "students.csv";

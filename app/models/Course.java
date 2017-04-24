@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +51,7 @@ public class Course extends Model
     private List<Course> prerequisites;
     
     @ManyToMany(mappedBy = "prerequisites")
+    @JsonBackReference
     public List<Course> inversePrerequisites;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "course")

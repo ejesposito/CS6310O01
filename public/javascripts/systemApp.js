@@ -7,6 +7,18 @@ systemApp.config(['$routeProvider', function($routeProvider) {
         templateUrl: '/administrator',
         controller: 'administratorCtrl'
       })
+      .when('/persons', {
+        templateUrl: '/persons',
+        controller: 'administratorCtrl'
+      })
+      .when('/courses', {
+        templateUrl: '/courses',
+        controller: 'administratorCtrl'
+      })
+      .when('/sessions', {
+        templateUrl: '/sessions',
+        controller: 'administratorCtrl'
+      })
       .when('/instructor', {
         templateUrl: '/instructor',
         controller: 'instructorCtrl'
@@ -36,6 +48,17 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             'Content-Type' : 'application/json',
             'Accept' : "application/json"
         }
+    };
+
+    $scope.loadCSVData = function() {
+        $http.get('/loadCSV', config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listPersons();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
     };
 
     $scope.listPersons = function() {
@@ -119,6 +142,39 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
             });
+    };
+
+    $scope.updateCourse = function() {
+        $http.put('/api/course/' + $scope.selectedCourse.id, $scope.selectedCourse, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCourses();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.deleteCourse = function() {
+        $http.delete('/api/course/' + $scope.selectedCourse.id, $scope.selectedCourse, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCourses();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.getTerms = function(course) {
+        var stringTerms = "";
+        if (course.inFall === true)
+            stringTerms = stringTerms + "FALL ";
+        if (course.inSpring === true)
+            stringTerms = stringTerms + "SRPING ";
+        if (course.inSummer === true)
+            stringTerms = stringTerms + "SUMMER ";
+        return stringTerms;
     };
 
     $scope.listPersons();

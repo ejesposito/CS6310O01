@@ -6,7 +6,10 @@
 GET     /                               controllers.Application.index()
 GET     /administrator                  controllers.Application.administratorView()
 GET     /instructor                     controllers.Application.instructorView()
-GET     /student                        controllers.Application.studentView()
+GET     /student                        controllers.Application.studentView
+GET     /persons                        controllers.Application.personsView()
+GET     /courses                        controllers.Application.coursesView()
+GET     /sessions                       controllers.Application.sessionsView()
 
 # CSV
 GET     /loadCSV                        controllers.Application.loadCSVData()
