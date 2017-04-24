@@ -14,6 +14,7 @@ import models.Instructor;
 import models.Person;
 import models.Program;
 import models.Program.Term;
+import models.Role;
 import models.Student;
 import play.mvc.*;
 import static play.mvc.Results.ok;
@@ -109,12 +110,22 @@ public class Application extends Controller {
                         String address = data[2];
                         Long number = Long.parseLong(data[3]);
                         // Search the person in the db
-                        Person person = Person.findByPropertie("name", name);
+                        Person person = Person.findByPropertie("uuid", uuid);
                         if (person != null) {
-                            // Create and add student role
-                            person.getRoles().add(new Student(null, person));
-                            // Save the person
-                            Person.update(person);
+                            
+                            // check if student role exists
+                            boolean bExists = false;
+                            for (Role role : person.getRoles())
+                            {
+                                bExists = bExists || role.getType().equalsIgnoreCase("student");
+                            }
+                            if (!bExists)
+                            {
+                                // Create and add student role
+                                person.getRoles().add(new Student(null, person));
+                                // Save the person
+                                Person.update(person);
+                            }
                         } else {
                             // Create the person
                             person = new Person (uuid, name, address, number.toString());
@@ -142,12 +153,22 @@ public class Application extends Controller {
                         String address = data[2];
                         Long number = Long.parseLong(data[3]);
                         // Search the person in the db
-                        Person person = Person.findByPropertie("name", name);
+                        Person person = Person.findByPropertie("uuid", uuid);
                         if (person != null) {
-                            // Create and add instructor role
-                            person.getRoles().add(new Instructor(null, person));
-                            // Save the person
-                            Person.update(person);
+                            
+                            // check if instructor role exists
+                            boolean bExists = false;
+                            for (Role role : person.getRoles())
+                            {
+                                bExists = bExists || role.getType().equalsIgnoreCase("instructor");
+                            }
+                            if (!bExists)
+                            {
+                                // Create and add instructor role
+                                person.getRoles().add(new Instructor(null, person));
+                                // Save the person
+                                Person.update(person);
+                            }
                         } else {
                             // Create the person
                             person = new Person (uuid, name, address, number.toString());
