@@ -42,6 +42,10 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.courses = [];
     $scope.newCourse = {};
     $scope.selectedCourse = {};
+    
+    $scope.coursesSessions = [];
+    $scope.newCourseSession = {};
+    $scope.selectedCourseSession = {};
 
     var config = {
         headers : {
@@ -177,8 +181,55 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
         return stringTerms;
     };
 
+    $scope.listCoursesSessions = function() {
+        $http.get('/api/coursesessions', config)
+            .success(function (data, status, headers, config) {
+                console.log("courses sessions" + JSON.stringify(data) + " " + status);
+                $scope.coursesSessions = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.createCourseSession = function() {
+        console.log("newCourseSession: " + JSON.stringify($scope.newCourseSession));
+        
+        $http.post('/api/coursesession', $scope.newCourseSession, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCoursesSessions();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.updateCourseSession = function() {
+        $http.put('/api/coursesession/' + $scope.selectedCourseSession.id, $scope.selectedCourseSession, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCoursesSessions();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
+    $scope.deleteCourseSession = function() {
+        $http.delete('/api/coursesession/' + $scope.selectedCourseSession.id, $scope.selectedCourseSession, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listCoursesSessions();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+
     $scope.listPersons();
     $scope.listCourses();
+    $scope.listCoursesSessions();
         
 }]);
 

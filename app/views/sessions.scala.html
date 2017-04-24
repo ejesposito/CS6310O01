@@ -1,5 +1,70 @@
 <div ng-controller="administratorCtrl">
-    Sessions
+    <h2>Courses Sessions</h2>
+    <h3>Create course session</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-3 form-group">
+                    <h4>Course</h4>
+                    <select ng-model="newCourseSession.course" ng-options="course as course.title for course in courses" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Year</h4>
+                        <input ng-model="newCourseSession.sessionYear" type="number" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Term</h4>
+                    <select ng-model="newCourseSession.sessionTerm" ng-options="term as term for term in ['FALL','SPRING','SUMMER']" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-3 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="createCourseSession()">Create course session</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>Update or delete person</h3>
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="col-md-4 form-group">
+                    <h4>Select</h4>
+                    <select ng-model="selectedCourseSession" ng-options="courseSession as courseSession.course.title + ' ' + courseSession.sessionYear + ' ' + courseSession.sessionTerm for courseSession in coursesSessions" ng-change="selectedCourseSessionChange()" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Year</h4>
+                        <input ng-model="selectedCourseSession.sessionYear" type="number" class="form-control input-sm"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <h4>Term</h4>
+                    <select ng-model="selectedCourseSession.sessionTerm" ng-options="term as term for term in ['FALL','SPRING','SUMMER']" class="form-control input-sm"></select>
+                </div>
+                <div class="col-md-2 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="updateCourseSession()">Update course session</button>
+                </div>
+                <div class="col-md-2 button-container">
+                    <h4>Action</h4>
+                    <button class="button color-green m-sides-10" ng-click="deleteCourseSession()">Delete course session</button>
+                </div>
+            </div>
+        </div>
+
+        <h3>List courses sessions</h3>
+        <div class="row">
+             <div class="col-md-12">
+                 <table class="table table-hover text-center">
+                     <tr>
+                         <th class="text-center">Course</th>
+                         <th class="text-center">Year</th>
+                         <th class="text-center">Term</th>
+                     </tr>
+                     <tr ng-repeat="courseSession in coursesSessions | orderBy:'id' ">
+                         <td>{{ courseSession.course.title }}</td>
+                         <td>{{ courseSession.sessionYear }}</td>
+                         <td>{{ courseSession.sessionTerm }}</td>
+                    </tr>
+                 </table>
+             </div>
+        </div>
 </div>
 
 

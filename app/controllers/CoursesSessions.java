@@ -8,6 +8,7 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 import models.CourseSession;
 import models.Student;
@@ -57,6 +58,13 @@ public class CoursesSessions {
         try {
             List<CourseSession> objects = CourseSession.getList();
             JsonNode jsonObjects = CourseSession.jsonListSerialization(objects);
+            if (jsonObjects.isArray()) {
+                int i = 0;
+                for (JsonNode object : jsonObjects) {
+                    ((ObjectNode)object).put("course",objects.get(i).getCourse().jsonSerialization());
+                    i++;
+                }
+            }
             return ok(jsonObjects);
         }catch(Exception e) {
             appLogger.error("Error listing objects",e);

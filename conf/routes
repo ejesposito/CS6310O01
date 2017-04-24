@@ -45,12 +45,12 @@ DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
 
 
 #Courses
-GET     /api/courseSession                     controllers.CoursesSessions.list()
-GET     /api/courseSession/:id                 controllers.CoursesSessions.get(id: Long)
-POST    /api/courseSession                     controllers.CoursesSessions.create()
-PUT     /api/courseSession/:id                 controllers.CoursesSessions.update(id: Long)
-DELETE  /api/courseSession/:id                 controllers.CoursesSessions.delete(id: Long)
-GET     /api/courseSession/register            controllers.CoursesSessions.requestCourse(courseId: Int, studentId: Int)
+GET     /api/coursesessions                    controllers.CoursesSessions.list()
+GET     /api/coursesession/:id                 controllers.CoursesSessions.get(id: Long)
+POST    /api/coursesession                     controllers.CoursesSessions.create()
+PUT     /api/coursesession/:id                 controllers.CoursesSessions.update(id: Long)
+DELETE  /api/coursesession/:id                 controllers.CoursesSessions.delete(id: Long)
+GET     /api/coursesession/register            controllers.CoursesSessions.requestCourse(courseId: Int, studentId: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
