@@ -39,6 +39,16 @@ public class Allocation extends Model
     
     private Long capacity;
     
+    public Allocation() {
+        
+    }
+    
+    public Allocation(Instructor instructor, CourseSession courseSession, Long capacity) {
+        this.instructor = instructor;
+        this.courseSession = courseSession;
+        this.capacity = capacity;
+    }
+    
     private static final Finder<Long, Allocation> finder = new Finder<>(Long.class, Allocation.class);
     
     public static void create (Allocation object) throws Exception       

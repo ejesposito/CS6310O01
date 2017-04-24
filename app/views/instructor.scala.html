@@ -61,10 +61,12 @@
                  <tr>
                      <th>ID</th>
                      <th>Title</th>
+                     <th>Capacity</th>
                  </tr>
-                 <tr ng-repeat="allocation in allocations | orderBy:'uuid' ">
+                 <tr ng-repeat="allocation in selectedInstructor.allocations | orderBy:'id' ">
                      <td>{{allocation.courseSession.course.uuid}}</td>
                      <td>{{allocation.courseSession.course.title}}</td>
+                     <td>{{allocation.capacity}}</td>
                 </tr>
              </table>
          </div>

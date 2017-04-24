@@ -249,9 +249,32 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
         }
     };
     
+    $scope.listAllocations = function() {
+        $http.get('/api/allocations', config)
+            .success(function (data, status, headers, config) {
+                console.log("allocations" + JSON.stringify(data) + " " + status);
+                $scope.allocations = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+    
+    $scope.listAllocationsByInstructor = function() {
+        $http.get('/api/allocations/instructor/' + $scope.selectedInstructor.id, config)
+            .success(function (data, status, headers, config) {
+                console.log("allocations" + JSON.stringify(data) + " " + status);
+                $scope.allocations = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+    
     $scope.setClickedRow = function(index) {
         $scope.selectedRow = index;
         $scope.selectedInstructor = $scope.instructors[index];
+        $scope.listAllocationsByInstructor();
     }
     
     $scope.listInstructors = function() {
@@ -276,28 +299,6 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
                 console.log(JSON.stringify(data) + " " + status);
             });
     };
-    
-    $scope.listAllocations = function() {
-        $http.get('/api/allocations', config)
-            .success(function (data, status, headers, config) {
-                console.log("allocations" + JSON.stringify(data) + " " + status);
-                $scope.allocations = data;
-            })
-            .error(function (data, status, header, config) {
-                console.log(JSON.stringify(data) + " " + status);
-            });
-    };
-    
-    /*$scope.listAllocations = function() {
-        $http.get('/api/allocations/instructor_id?=' + $scope.selectedInstructor.person.id, config)
-            .success(function (data, status, headers, config) {
-                console.log("allocations" + JSON.stringify(data) + " " + status);
-                $scope.allocations = data;
-            })
-            .error(function (data, status, header, config) {
-                console.log(JSON.stringify(data) + " " + status);
-            });
-    };*/
 
     $scope.createAllocation = function() {
         console.log("newAllocation: " + JSON.stringify($scope.newAllocation));
@@ -313,7 +314,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
     
     $scope.listInstructors();
     $scope.listCourseSessions();
-    $scope.listAllocations();
+    $scope.listAllocationsByInstructor();
         
 }]);
 
