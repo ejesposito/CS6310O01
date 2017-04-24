@@ -76,8 +76,8 @@
                          <th class="text-center">Phone</th>
                          <th class="text-center">Roles</th>
                      </tr>
-                     <tr ng-repeat="person in persons | orderBy:'id' ">
-                         <td>{{ person.id }}</td>
+                     <tr ng-repeat="person in persons | orderBy:'uuid' ">
+                         <td>{{ person.uuid }}</td>
                          <td>{{ person.name }}</td>
                          <td>{{ person.address }}</td>
                          <td>{{ person.phone }}</td>

@@ -14,10 +14,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import models.Program.Term;
 import play.db.ebean.Model;
 
@@ -39,7 +41,7 @@ public class CourseSession extends Model
     
     private Long currentAllocation;
     
-    @ManyToMany(mappedBy = "coursesSessions")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "courseSession")
     private List<Allocation> allocations;
     
     @ManyToOne

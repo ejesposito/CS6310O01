@@ -236,7 +236,9 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
 systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $http) {
     
     $scope.instructors = [];
-    $scope.newInstructor = {};
+    $scope.courseSessions = [];
+    $scope.allocations = [];
+    $scope.newAllocation = {};
     $scope.selectedInstructor = {};
     $scope.selectedRow = 0;
     
@@ -264,19 +266,54 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
             });  
     };
     
-    $scope.listCourses = function() {
-        $http.get('/api/courses', config)
+    $scope.listCourseSessions = function() {
+        $http.get('/api/coursesessions', config)
             .success(function (data, status, headers, config) {
-                console.log(JSON.stringify(data) + " " + status);
-                $scope.courses = data;
+                console.log("courses sessions" + JSON.stringify(data) + " " + status);
+                $scope.courseSessions = data;
             })
             .error(function (data, status, header, config) {
                 console.log(JSON.stringify(data) + " " + status);
-            });  
+            });
+    };
+    
+    $scope.listAllocations = function() {
+        $http.get('/api/allocations', config)
+            .success(function (data, status, headers, config) {
+                console.log("allocations" + JSON.stringify(data) + " " + status);
+                $scope.allocations = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };
+    
+    /*$scope.listAllocations = function() {
+        $http.get('/api/allocations/instructor_id?=' + $scope.selectedInstructor.person.id, config)
+            .success(function (data, status, headers, config) {
+                console.log("allocations" + JSON.stringify(data) + " " + status);
+                $scope.allocations = data;
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
+    };*/
+
+    $scope.createAllocation = function() {
+        console.log("newAllocation: " + JSON.stringify($scope.newAllocation));
+        $http.post('/api/allocation', $scope.newAllocation, config)
+            .success(function (data, status, headers, config) {
+                console.log(JSON.stringify(data) + " " + status);
+                $scope.listAllocations();
+            })
+            .error(function (data, status, header, config) {
+                console.log(JSON.stringify(data) + " " + status);
+            });
     };
     
     $scope.listInstructors();
-    $scope.listCourses();
+    $scope.listCourseSessions();
+    $scope.listAllocations();
         
 }]);
 

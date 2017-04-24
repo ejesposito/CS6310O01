@@ -22,21 +22,21 @@ POST    /api/person                     controllers.Persons.create()
 PUT     /api/person/:id                 controllers.Persons.update(id: Long)
 DELETE  /api/person/:id                 controllers.Persons.delete(id: Long)
 
-#Instructors
+# Instructors
 GET     /api/instructors                controllers.Instructors.list()
-GET     /api/instructors                controllers.Instructors.get(id: Long)
+GET     /api/instructor/:id             controllers.Instructors.get(id: Long)
 POST    /api/instructor                 controllers.Instructors.create()
 PUT     /api/instructor/:id             controllers.Instructors.update(id: Long)
 DELETE  /api/instructor/:id             controllers.Instructors.delete(id: Long)
 
-#Students
+# Students
 GET     /api/students                   controllers.Students.list()
 GET     /api/students                   controllers.Students.get(id: Long)
 POST    /api/students                   controllers.Students.create()
 PUT     /api/students/:id               controllers.Students.update(id: Long)
 DELETE  /api/students/:id               controllers.Students.delete(id: Long)
 
-#Courses
+# Courses
 GET     /api/courses                    controllers.Courses.list()
 GET     /api/course/:id                 controllers.Courses.get(id: Long)
 POST    /api/course                     controllers.Courses.create()
@@ -44,13 +44,20 @@ PUT     /api/course/:id                 controllers.Courses.update(id: Long)
 DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
 
 
-#Courses
-GET     /api/coursesessions                    controllers.CoursesSessions.list()
-GET     /api/coursesession/:id                 controllers.CoursesSessions.get(id: Long)
-POST    /api/coursesession                     controllers.CoursesSessions.create()
-PUT     /api/coursesession/:id                 controllers.CoursesSessions.update(id: Long)
-DELETE  /api/coursesession/:id                 controllers.CoursesSessions.delete(id: Long)
-GET     /api/coursesession/register            controllers.CoursesSessions.requestCourse(courseId: Int, studentId: Int)
+# Course Sessions
+GET     /api/coursesessions                    controllers.CourseSessions.list()
+GET     /api/coursesession/:id                 controllers.CourseSessions.get(id: Long)
+POST    /api/coursesession                     controllers.CourseSessions.create()
+PUT     /api/coursesession/:id                 controllers.CourseSessions.update(id: Long)
+DELETE  /api/coursesession/:id                 controllers.CourseSessions.delete(id: Long)
+GET     /api/coursesession/register            controllers.CourseSessions.requestCourse(courseId: Int, studentId: Int)
+
+# Allocations
+GET     /api/allocations                                controllers.Allocations.list()
+GET     /api/allocation/:id                             controllers.Allocations.get(id: Long)
+POST    /api/allocation                                 controllers.Allocations.create()
+PUT     /api/allocation/:id                             controllers.Allocations.update(id: Long)
+DELETE  /api/allocation/:id                             controllers.Allocations.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -14,13 +14,13 @@
         <div class="col-md-12" style="overflow: scroll; height: 200px;">
             <table class="table table-hover">
                 <tr>
-                    <th>ID</th>
+                    <th>UUID</th>
                     <th>Name</th>
                     <th>Address</th>
                     <th>Phone</th>
                 </tr>
-                <tr ng-repeat="instructor in instructors | orderBy:'id'" ng-class="'selected':$index === selectedRow" ng-click="setClickedRow($index)">
-                    <td>{{instructor.person.id }}</td>
+                <tr ng-repeat="instructor in instructors | orderBy:'uuid'" ng-click="setClickedRow($index)">
+                    <td>{{instructor.person.uuid }}</td>
                     <td>{{instructor.person.name }}</td>
                     <td>{{instructor.person.address }}</td>
                     <td>{{instructor.person.phone }}</td>
@@ -31,8 +31,30 @@
         <div>selected={{selectedRow}}</div>
         <div>instructor={{selectedInstructor}}</div>
     </div>
+    
+    <h4>Allocate Seats</h4>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="col-md-3 form-group">
+                <h4>Instructor</h4>
+                <select ng-model="newAllocation.instructor" ng-options="instructor as instructor.person.uuid + ' - ' + instructor.person.name for instructor in instructors" class="form-control input-sm"></select>
+            </div>
+            <div class="col-md-3 form-group">
+                <h4>Course Session</h4>
+                <select ng-model="newAllocation.courseSession" ng-options="courseSession as courseSession.course.title + ' - ' + courseSession.sessionYear + ' ' + courseSession.sessionTerm for courseSession in courseSessions" ng-change="selectedCourseSessionChange()" class="form-control input-sm"></select>
+            </div>
+            <div class="col-md-3 form-group">
+                <h4>Capacity</h4>
+                <input ng-model="newAllocation.capacity" type="number" class="form-control input-sm"/>
+            </div>
+            <div class="col-md-3 button-container">
+                <h4>Action</h4>
+                <button class="button color-green m-sides-10" ng-click="createAllocation()">Create Allocation</button>
+            </div>
+        </div>
+    </div>
         
-    <h3>Courses</h3>
+    <h4>Allocations</h4>
     <div class="row">
          <div class="col-md-12" style="overflow: scroll; height: 200px;">
              <table class="table table-hover">
@@ -40,9 +62,9 @@
                      <th>ID</th>
                      <th>Title</th>
                  </tr>
-                 <tr ng-repeat="course in courses | orderBy:'id' ">
-                     <td>{{course.id}}</td>
-                     <td>{{course.title}}</td>
+                 <tr ng-repeat="allocation in allocations | orderBy:'uuid' ">
+                     <td>{{allocation.courseSession.course.uuid}}</td>
+                     <td>{{allocation.courseSession.course.title}}</td>
                 </tr>
              </table>
          </div>

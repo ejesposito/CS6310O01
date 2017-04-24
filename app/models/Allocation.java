@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import play.db.ebean.Model;
 
@@ -34,13 +32,12 @@ public class Allocation extends Model
     @JsonBackReference
     private Instructor instructor;
     
-    @ManyToMany
-    @JoinTable(name = "allocation_courses_sessions", joinColumns = {
-        @JoinColumn(name = "allocation_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "course_session_id")})
-    private List<CourseSession> coursesSessions;
+    @ManyToOne
+    @JoinColumn(name="course_session_id")
+    @JsonBackReference
+    private CourseSession courseSession;
     
-    private Long value;
+    private Long capacity;
     
     private static final Finder<Long, Allocation> finder = new Finder<>(Long.class, Allocation.class);
     
@@ -163,31 +160,31 @@ public class Allocation extends Model
     }
     
     /**
-     * @return the value
+     * @return the capacity
      */
-    public Long getValue() {
-        return value;
+    public Long getCapacity() {
+        return capacity;
     }
 
     /**
-     * @param value the value to set
+     * @param capacity the capacity to set
      */
-    public void setValue(Long value) {
-        this.value = value;
+    public void setCapacity(Long capacity) {
+        this.capacity = capacity;
     }
     
     /**
-     * @return the coursesSessions
+     * @return the coursesSession
      */
-    public List<CourseSession> getCoursesSessions() {
-        return coursesSessions;
+    public CourseSession getCourseSession() {
+        return courseSession;
     }
 
     /**
-     * @param coursesSessions the coursesSessions to set
+     * @param courseSession the coursesSession to set
      */
-    public void setCoursesSessions(List<CourseSession> coursesSessions) {
-        this.coursesSessions = coursesSessions;
+    public void setCourseSession(CourseSession courseSession) {
+        this.courseSession = courseSession;
     }
     
 }

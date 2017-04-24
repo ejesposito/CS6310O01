@@ -27,7 +27,7 @@ import static play.mvc.Results.ok;
  * @author ejesposito
  */
 
-public class CoursesSessions {
+public class CourseSessions {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
 
