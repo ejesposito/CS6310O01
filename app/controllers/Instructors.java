@@ -8,8 +8,11 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.math.BigDecimal;
 import java.util.List;
+import models.Allocation;
 import models.Instructor;
 import play.Logger;
 import play.data.Form;
@@ -37,7 +40,18 @@ public class Instructors {
             if (jsonObjects.isArray()) {
                 int i = 0;
                 for (JsonNode object : jsonObjects) {
-                    ((ObjectNode)object).put("person",objects.get(i).getPerson().jsonSerialization());
+                    ((ObjectNode)object).put("person", objects.get(i).getPerson().jsonSerialization());
+                    int j = 0;
+                    ((ArrayNode)(object.get("allocations"))).removeAll();
+                    for (Allocation allocation : objects.get(i).getAllocations()) {
+                        JsonNode allocationNode = allocation.jsonSerialization();
+                        JsonNode courseSessionNode = allocation.getCourseSession().jsonSerialization();
+                        JsonNode course = allocation.getCourseSession().getCourse().jsonSerialization();
+                        ((ObjectNode)courseSessionNode).put("course", course);                        
+                        ((ObjectNode)allocationNode).put("courseSession", courseSessionNode);
+                        ((ArrayNode)(object.get("allocations"))).add(allocationNode);
+                        j++;
+                    }
                     i++;
                 }
             }

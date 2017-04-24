@@ -27,9 +27,6 @@
                </tr>
             </table>
         </div>
-
-        <div>selected={{selectedRow}}</div>
-        <div>instructor={{selectedInstructor}}</div>
     </div>
     
     <h4>Allocate Seats</h4>
@@ -37,7 +34,7 @@
         <div class="col-md-12">
             <div class="col-md-3 form-group">
                 <h4>Instructor</h4>
-                <select ng-model="newAllocation.instructor" ng-options="instructor as instructor.person.uuid + ' - ' + instructor.person.name for instructor in instructors" class="form-control input-sm"></select>
+                <select ng-model="instructorToAllocate" ng-options="instructor as instructor.person.uuid + ' - ' + instructor.person.name for instructor in instructors" class="form-control input-sm"></select>
             </div>
             <div class="col-md-3 form-group">
                 <h4>Course Session</h4>
