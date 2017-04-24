@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.math.BigDecimal;
 import java.util.List;
 import models.Allocation;
+import models.CourseSession;
 import models.Instructor;
 import play.Logger;
 import play.data.Form;
@@ -110,6 +111,15 @@ public class Instructors {
         Ebean.beginTransaction();
         try {
             Instructor.update(object);
+            
+            List<Allocation> allocations = object.getAllocations();
+            Allocation newAllocation = allocations.get(allocations.size() - 1);
+            CourseSession courseSession = newAllocation.getCourseSession();
+            courseSession.setTotalCapacity(0L);
+            for (Allocation allocation : courseSession.getAllocations()) {
+                courseSession.setTotalCapacity(courseSession.getTotalCapacity() + allocation.getCapacity());
+            }
+            
             JsonNode jsonObject = object.jsonSerialization();
             Ebean.commitTransaction();
             return ok(jsonObject);

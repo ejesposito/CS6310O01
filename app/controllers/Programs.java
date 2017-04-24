@@ -9,7 +9,10 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
+import models.Instructor;
 import models.Program;
+import models.Role;
+import models.Student;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -31,6 +34,10 @@ public class Programs {
     public static Result get(Long id) {  
         try {
             Program object = Program.findByPropertie("id", id);
+            
+            List<Instructor> instructors = Instructor.getInstructorsList();
+            List<Student> students = Student.getStudentsList();
+            
             JsonNode jsonObject = object.jsonSerialization();
             return ok(jsonObject);
         } catch (Exception e) {

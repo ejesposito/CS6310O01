@@ -57,16 +57,41 @@
              <table class="table table-hover">
                  <tr>
                      <th>ID</th>
-                     <th>Title</th>
+                    <th>Title</th>
+                     <th>Year</th>
+                     <th>Term</th>
                      <th>Capacity</th>
                  </tr>
                  <tr ng-repeat="allocation in selectedInstructor.allocations | orderBy:'id' ">
                      <td>{{allocation.courseSession.course.uuid}}</td>
                      <td>{{allocation.courseSession.course.title}}</td>
+                     <td>{{allocation.courseSession.sessionYear}}</td>
+                     <td>{{allocation.courseSession.sessionTerm}}</td>
                      <td>{{allocation.capacity}}</td>
                 </tr>
              </table>
          </div>
+    </div>
+    
+    <h4>Update Allocations</h4>
+    <div class="row">
+         <div class="col-md-12" style="overflow: scroll; height: 200px;">
+            <div class="col-md-3 form-group">
+                <h4>Instructor</h4>
+                <select ng-model="instructorToUpdate" ng-options="instructor as instructor.person.uuid + ' - ' + instructor.person.name for instructor in instructors" class="form-control input-sm"></select>
+            </div>
+             <div class="col-md-3 form-group">
+                <h4>Allocations</h4>
+                <select ng-model="allocationToUpdate" ng-options="allocation as allocation.courseSession.course.title + ' - ' + allocation.courseSession.sessionYear + ' - ' + allocation.courseSession.sessionTerm for allocation in instructorToUpdate.allocations" class="form-control input-sm"></select>
+            </div>
+            <div class="col-md-3 form-group">
+                <h4>Capacity</h4>
+                <input ng-model="allocationToUpdate.capacity" type="number" class="form-control input-sm"/>
+            </div>
+            <div class="col-md-3 button-container">
+                <h4>Action</h4>
+                <button class="button color-green m-sides-10" ng-click="updateAllocation()">Upate Allocation</button>
+            </div>
     </div>
     
 </div>

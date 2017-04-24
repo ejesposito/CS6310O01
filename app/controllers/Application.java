@@ -1,6 +1,8 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -53,7 +55,7 @@ public class Application extends Controller {
         return ok(sessions.render());
     }
     
-     public static Result loadCSVData() {
+    public static Result loadCSVData() {
         // Parsing and creation off all the objects in RAM
         String studentsCSVFilePath = "students.csv";
         String instructorsCSVFilePath = "instructors.csv";
@@ -73,6 +75,26 @@ public class Application extends Controller {
             appLogger.error("Error finding program or loading CSV data", e);
             return internalServerError("Error finding program or loading CSV data");
         }
+        return ok();
+    }
+    
+    public static Result clearAllData () {
+/*        String createDdl = "";
+        String dropDdl = "";
+        String evolutionContent;
+        try {
+            evolutionContent = FileUtils.readFileToString(new File("/conf/evolutions/default/1.sql"));
+            String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
+            String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
+            createDdl = upsDowns[0];
+            dropDdl = upsDowns[1];
+            Ebean.execute(Ebean.createCallableSql(dropDdl));
+            Ebean.execute(Ebean.createCallableSql(createDdl));
+            return ok();
+        } catch (Exception e) {
+            appLogger.error("Error clearing db data", e);
+            return internalServerError("Error clearing db data");
+        }   */
         return ok();
     }
     

@@ -13,6 +13,7 @@ GET     /sessions                       controllers.Application.sessionsView()
 
 # CSV
 GET     /loadCSV                        controllers.Application.loadCSVData()
+GET     /clearAllData                   controllers.Application.clearAllData()
 
 # APIs
 

@@ -70,6 +70,17 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 //console.log(JSON.stringify(data) + " " + status);
             });
     };
+    
+    $scope.clearAllData = function() {
+        $http.get('/clearAllData', config)
+            .success(function (data, status, headers, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+                $scope.listPersons();
+            })
+            .error(function (data, status, header, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+            });
+    };
 
     $scope.getProgram = function() {
         $http.get('/api/program/1', config)
@@ -310,8 +321,17 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
 
     $scope.createAllocation = function() {
         //console.log("instructorToAllocate: " + JSON.stringify($scope.instructorToAllocate));
-        $scope.instructorToAllocate.allocations.push($scope.newAllocation);
-        $http.put('/api/instructor/' + $scope.instructorToAllocate.id, $scope.instructorToAllocate, config)
+        
+        var allocationExists = false;
+        angular.forEach($scope.instructorToAllocate.allocations, function(allocation) {
+            //console.log(role.type)
+            if (allocation.courseSession.id === $scope.newAllocation.courseSession.id)
+                allocationExists = true;
+        });
+        
+        if (allocationExists === false) {
+            $scope.instructorToAllocate.allocations.push($scope.newAllocation);
+            $http.put('/api/instructor/' + $scope.instructorToAllocate.id, $scope.instructorToAllocate, config)
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
                 $scope.listAllocations();
@@ -319,6 +339,20 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
             .error(function (data, status, header, config) {
                 //console.log(JSON.stringify(data) + " " + status);
             });
+        }
+    };
+    
+    $scope.updateAllocation = function() {
+        //console.log("instructorToAllocate: " + JSON.stringify($scope.instructorToAllocate));
+        
+        $http.put('/api/instructor/' + $scope.instructorToUpdate.id, $scope.instructorToUpdate, config)
+        .success(function (data, status, headers, config) {
+            //console.log(JSON.stringify(data) + " " + status);
+            $scope.listAllocations();
+        })
+        .error(function (data, status, header, config) {
+            //console.log(JSON.stringify(data) + " " + status);
+        });
     };
     
     $scope.listInstructors();
