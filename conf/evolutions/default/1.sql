@@ -81,6 +81,12 @@ create table course_prerequisites (
   constraint pk_course_prerequisites primary key (course_id, prerequisite_id))
 ;
 
+create table courses_sessions_waiting (
+  course_session_id              bigint not null,
+  student_id                     bigint not null,
+  constraint pk_courses_sessions_waiting primary key (course_session_id, student_id))
+;
+
 create table programs_persons (
   programs_id                    bigint not null,
   persons_id                     bigint not null,
@@ -119,6 +125,10 @@ alter table course_prerequisites add constraint fk_course_prerequisites_courses_
 
 alter table course_prerequisites add constraint fk_course_prerequisites_courses_02 foreign key (prerequisite_id) references courses (id) on delete restrict on update restrict;
 
+alter table courses_sessions_waiting add constraint fk_courses_sessions_waiting_courses_sessions_01 foreign key (course_session_id) references courses_sessions (id) on delete restrict on update restrict;
+
+alter table courses_sessions_waiting add constraint fk_courses_sessions_waiting_courses_02 foreign key (student_id) references courses (id) on delete restrict on update restrict;
+
 alter table programs_persons add constraint fk_programs_persons_programs_01 foreign key (programs_id) references programs (id) on delete restrict on update restrict;
 
 alter table programs_persons add constraint fk_programs_persons_persons_02 foreign key (persons_id) references persons (id) on delete restrict on update restrict;
@@ -144,6 +154,8 @@ drop table courses;
 drop table course_prerequisites;
 
 drop table courses_sessions;
+
+drop table courses_sessions_waiting;
 
 drop table persons;
 

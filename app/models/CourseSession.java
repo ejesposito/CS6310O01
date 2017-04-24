@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import models.Program.Term;
@@ -45,6 +46,12 @@ public class CourseSession extends Model
     @JoinColumn(name="course_id")
     @JsonBackReference
     private Course course;
+    
+    @ManyToMany
+    @JoinTable(name = "courses_sessions_waiting", joinColumns = {
+        @JoinColumn(name = "course_session_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "student_id")})
+    private List<Course> waitingList;
     
     private static final Finder<Long, CourseSession> finder = new Finder<>(Long.class, CourseSession.class);
 
@@ -271,6 +278,20 @@ public class CourseSession extends Model
      */
     public void setCourse(Course course) {
         this.course = course;
+    }
+    
+    /**
+     * @return the waitingList
+     */
+    public List<Course> getWaitingList() {
+        return waitingList;
+    }
+
+    /**
+     * @param waitingList the waitingList to set
+     */
+    public void setWaitingList(List<Course> waitingList) {
+        this.waitingList = waitingList;
     }
     
 }
