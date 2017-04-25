@@ -433,7 +433,7 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
 
     $scope.changeStudent = function() {
         for (var i = 0; i < $scope.students.length; i++) {
-            if ($scope.students[i].id === $scope.currentStudentId) {
+            if ($scope.students[i].id == $scope.currentStudentId) {
                 $scope.currentStudent = $scope.students[i];
             }
         }
