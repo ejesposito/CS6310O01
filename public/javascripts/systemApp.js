@@ -44,7 +44,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.persons = [];
     $scope.newPerson = {};
     $scope.selectedPerson = {};
-
+    $scope.wekaOutput = "";
     $scope.courses = [];
     $scope.newCourse = {};
     $scope.selectedCourse = {};
@@ -58,6 +58,17 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
             'Content-Type' : 'application/json',
             'Accept' : "application/json"
         }
+    };
+
+    $scope.reloadWeka = function() {
+        $http.get('/api/administration/analytics', config)
+            .success(function (data, status, headers, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+                $scope.wekaOutput = data;
+            })
+            .error(function (data, status, header, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+            });
     };
 
     $scope.loadCSVData = function() {
@@ -260,7 +271,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.listPersons();
     $scope.listCourses();
     $scope.listCoursesSessions();
-        
+    $scope.reloadWeka();
 }]);
 
 systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $http) {

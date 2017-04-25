@@ -9,6 +9,8 @@ package controllers;
 import com.avaje.ebean.Ebean;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
+
+import datamining.WekaDataMiner;
 import models.Administrator;
 import play.Logger;
 import play.data.Form;
@@ -28,7 +30,16 @@ import static play.mvc.Results.ok;
 public class Administrators {
     
     private static final Logger.ALogger appLogger = Logger.of("application");
-    
+
+    public static Result displayAnalytics() {
+        try {
+            return ok(WekaDataMiner.buildAssociate());
+        }catch(Exception e) {
+            appLogger.error("Error listing objects",e);
+            return internalServerError("Error listing objects");
+        }
+    }
+
     public static Result list() {  
         try {
             List<Administrator> objects = Administrator.getAdministratorsList();

@@ -57,6 +57,9 @@ PUT     /api/coursesession/:id                 controllers.CourseSessions.update
 DELETE  /api/coursesession/:id                 controllers.CourseSessions.delete(id: Long)
 GET     /api/coursesession/register            controllers.CourseSessions.requestCourse(courseId: Int, studentId: Int)
 
+# Administration
+GET     /api/administration/analytics          controllers.Administrators.displayAnalytics()
+
 # Allocations
 GET     /api/allocations                controllers.Allocations.list()
 GET     /api/allocations/instructor/:id controllers.Allocations.getByInstructor(id: Long)
