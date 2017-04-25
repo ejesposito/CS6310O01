@@ -385,6 +385,7 @@ systemApp.controller("instructorCtrl", ['$scope', '$http', function ($scope, $ht
 systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http) {
 
     $scope.students = [];
+    console.log($scope.students);
     $scope.currentStudent = {};
     $scope.currentStudentId = 1;
     $scope.courses = [];
@@ -402,6 +403,7 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
                 $scope.students = data;
+                $scope.changeStudent();
             })
             .error(function (data, status, header, config) {
                 //console.log(JSON.stringify(data) + " " + status);
@@ -409,7 +411,7 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
     };
 
     $scope.requestCourse = function() {
-        $http.get('/api/courseSession/register?studentId=' + $scope.currentStudentId.id + '&courseId=' + $scope.chosenCourse.id)
+        $http.get('/api/coursesession/register?studentId=' + $scope.currentStudentId.id + '&courseId=' + $scope.chosenCourse.id)
             .success(function (data, status, headers, config) {
                 $scope.enrollmentMessage = data;
             })
@@ -422,11 +424,12 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
         for (var i = 0; i < $scope.students.length; i++) {
             if ($scope.students[i].id === $scope.currentStudentId) {
                 $scope.currentStudent = $scope.students[i];
+                console.log($scope.currentStudent);
             }
         }
     };
     $scope.listCourses = function() {
-        $http.get('/api/courseSession', config)
+        $http.get('/api/coursesessions', config)
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
                 $scope.courses = data;
@@ -437,7 +440,6 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
     };
 
     $scope.listStudents();
-    $scope.changeStudent();
     $scope.listCourses();
 }]);
 
