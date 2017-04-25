@@ -1,0 +1,2 @@
+jdbcDriver=com.mysql.jdbc.Driver
+jdbcURL="jdbc:mysql://localhost/system?#characterEncoding=UTF-8"

@@ -16,7 +16,8 @@ object ApplicationBuild extends Build {
     "org.apache.poi" % "poi-ooxml" % "3.10.1",
     "mysql" % "mysql-connector-java" % "5.1.18",
     "org.mindrot" % "jbcrypt" % "0.3m",
-    "org.apache.commons" % "commons-email" % "1.4")
+    "org.apache.commons" % "commons-email" % "1.4",
+    "nz.ac.waikato.cms.weka" % "weka-stable" % "3.8.0")
 
   val main = play.Project(appName, appVersion, appDependencies)
                  .settings(sbt.Keys.fork in Test := false)
