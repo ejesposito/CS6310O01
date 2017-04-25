@@ -68,7 +68,19 @@ public class CourseSession extends Model
     }
     
     public boolean hasCourseRoom() {
-        if (this.totalCapacity < this.currentAllocation) {
+
+        if (totalCapacity == null || currentAllocation == null) {
+            if (totalCapacity == null) {
+                this.totalCapacity = Long.getLong("1");
+            }
+            if (currentAllocation == null) {
+                this.currentAllocation = Long.getLong("1");
+            }
+            System.out.println(totalCapacity);
+            System.out.println(currentAllocation);
+            return true;
+        }
+        if (totalCapacity < currentAllocation) {
             return true;
         } else {
             return false;

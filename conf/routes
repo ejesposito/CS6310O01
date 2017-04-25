@@ -55,7 +55,7 @@ GET     /api/coursesession/:id                 controllers.CourseSessions.get(id
 POST    /api/coursesession                     controllers.CourseSessions.create()
 PUT     /api/coursesession/:id                 controllers.CourseSessions.update(id: Long)
 DELETE  /api/coursesession/:id                 controllers.CourseSessions.delete(id: Long)
-GET     /api/coursesession/register            controllers.CourseSessions.requestCourse(courseId: Int, studentId: Int)
+GET     /api/coursesession/register/:courseId/:studentId            controllers.CourseSessions.requestCourse(courseId: Int, studentId: Int)
 
 # Administration
 GET     /api/administration/analytics          controllers.Administrators.displayAnalytics()

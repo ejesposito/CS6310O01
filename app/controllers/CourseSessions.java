@@ -38,7 +38,9 @@ public class CourseSessions {
             Student student = Student.findByPropertie("id", studentId);
             if (student.hasPrereqsForCourse(courseSession.getCourse())) {
                 if (courseSession.hasCourseRoom()) {
-                    courseSession.setCurrentAllocation(courseSession.getCurrentAllocation() - 1);
+                    if (courseSession.getCurrentAllocation() != null) {
+                        courseSession.setCurrentAllocation(courseSession.getCurrentAllocation() - 1);
+                    }
                     CourseSession.update(courseSession);
                     student.getProgramCourses().add(courseSession.getCourse());
                     Student.update(student);

@@ -411,20 +411,28 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
     };
 
     $scope.requestCourse = function() {
-        $http.get('/api/coursesession/register?studentId=' + $scope.currentStudentId.id + '&courseId=' + $scope.chosenCourse.id)
-            .success(function (data, status, headers, config) {
-                $scope.enrollmentMessage = data;
-            })
-            .error(function (data, status, header, config) {
-                //console.log(JSON.stringify(data) + " " + status);
-            });
+        var chosenCourseId = 0;
+        for (var i = 0; i < $scope.courses.length; i++) {
+            if ($scope.courses[i].course.title === $scope.chosenCourse) {
+                chosenCourseId = $scope.courses[i].id;
+            }
+        }
+        console.log(chosenCourseId);
+        if (chosenCourseId > 0) {
+            $http.get('/api/coursesession/register/' + chosenCourseId + '/' + $scope.currentStudent.id )
+                .success(function (data, status, headers, config) {
+                    $scope.enrollmentMessage = data;
+                })
+                .error(function (data, status, header, config) {
+                    //console.log(JSON.stringify(data) + " " + status);
+                });
+        }
     };
 
     $scope.changeStudent = function() {
         for (var i = 0; i < $scope.students.length; i++) {
             if ($scope.students[i].id === $scope.currentStudentId) {
                 $scope.currentStudent = $scope.students[i];
-                console.log($scope.currentStudent);
             }
         }
     };
@@ -433,6 +441,7 @@ systemApp.controller("studentCtrl", ['$scope', '$http', function ($scope, $http)
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
                 $scope.courses = data;
+                console.log($scope.courses);
             })
             .error(function (data, status, header, config) {
                 //console.log(JSON.stringify(data) + " " + status);

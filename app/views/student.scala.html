@@ -13,10 +13,10 @@
     <h3>Request Course</h3>
     <h3>Courses</h3>
     <h5>{{ enrollmentMessage }}</h5>
-    <select>
-        <option ng-repeat="course in courses" ng-model="chosenCourse">{{ course.name }}</option>
+    <select ng-model="chosenCourse">
+        <option ng-repeat="course in courses">{{ course.course.title }}</option>
     </select>
-    <button class="button color-green m-sides-10" ng-click="createCourse()">Request Course</button>
+    <button class="button color-green m-sides-10" ng-click="requestCourse()">Request Course</button>
 
     <h3>Current Courses</h3>
     <div class="row">
