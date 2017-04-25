@@ -48,6 +48,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
     $scope.courses = [];
     $scope.newCourse = {};
     $scope.selectedCourse = {};
+    $scope.CSVDataMessage = "";
     
     $scope.coursesSessions = [];
     $scope.newCourseSession = {};
@@ -75,6 +76,7 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
         $http.get('/loadCSV', config)
             .success(function (data, status, headers, config) {
                 //console.log(JSON.stringify(data) + " " + status);
+                $scope.CSVDataMessage = "CSV data load succesfully";
                 $scope.listPersons();
             })
             .error(function (data, status, header, config) {
