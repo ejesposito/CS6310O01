@@ -1,15 +1,46 @@
-@(title: String)(content: Html)
+@(title: String)
 
 <!DOCTYPE html>
 
-<html>
+<html ng-app="systemApp">
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <!-- Boostrap stylesheet -->
+        <link rel="stylesheet"  media="screen" href='@routes.Assets.at("bootstrap/css/bootstrap.min.css")'>
+        <link rel="stylesheet"  media="screen" href='@routes.Assets.at("bootstrap/css/bootstrap-switch.min.css")'>
+        <!-- jQuery & jQuery-ui -->
+        <script src='@routes.Assets.at("jquery/js/jquery-1.10.2.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("jquery/js/jquery-ui-1.10.4.js")' type="text/javascript"></script>  
+        <!-- angularJS -->
+        <script src='@routes.Assets.at("angular/angular.min.js")' type="text/javascript"></script>
+        <script src='@routes.Assets.at("angular/angular-route.min.js")' type="text/javascript"></script>        
+        <!-- app -->
+        <script src='@routes.Assets.at("javascripts/systemApp.js")' type="text/javascript"></script>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("stylesheets/main.css")'>
+        <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
     </head>
     <body>
-        @content
+        <div ng-controller="mainCtrl" class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div>
+                        <h2>Menu</h2>
+                        <ul> 
+                            <li><a href="#administrator">Administrator View</a></li>
+                            <ul>
+                                <li><a href="#persons">Persons</a></li>
+                                <li><a href="#courses">Courses</a></li>
+                                <li><a href="#sessions">Courses Sessions</a></li>
+                            </ul>
+                            <li><a href="#instructor">Instructor View</a></li>
+                            <li><a href="#student">Student View</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div ng-view></div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

@@ -2,8 +2,72 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.index()
+# Views
+GET     /                               controllers.Application.index()
+GET     /administrator                  controllers.Application.administratorView()
+GET     /instructor                     controllers.Application.instructorView()
+GET     /student                        controllers.Application.studentView
+GET     /persons                        controllers.Application.personsView()
+GET     /courses                        controllers.Application.coursesView()
+GET     /sessions                       controllers.Application.sessionsView()
+
+# CSV
+GET     /loadCSV                        controllers.Application.loadCSVData()
+GET     /clearAllData                   controllers.Application.clearAllData()
+
+# APIs
+
+# Program
+GET     /api/program/:id                controllers.Programs.get(id: Long)
+PUT     /api/program/:id                controllers.Programs.update(id: Long)
+
+# Persons
+GET     /api/persons                    controllers.Persons.list()
+GET     /api/person/:id                 controllers.Persons.get(id: Long)
+POST    /api/person                     controllers.Persons.create()
+PUT     /api/person/:id                 controllers.Persons.update(id: Long)
+DELETE  /api/person/:id                 controllers.Persons.delete(id: Long)
+
+# Instructors
+GET     /api/instructors                controllers.Instructors.list()
+GET     /api/instructor/:id             controllers.Instructors.get(id: Long)
+POST    /api/instructor                 controllers.Instructors.create()
+PUT     /api/instructor/:id             controllers.Instructors.update(id: Long)
+DELETE  /api/instructor/:id             controllers.Instructors.delete(id: Long)
+
+# Students
+GET     /api/students                   controllers.Students.list()
+GET     /api/students                   controllers.Students.get(id: Long)
+POST    /api/students                   controllers.Students.create()
+PUT     /api/students/:id               controllers.Students.update(id: Long)
+DELETE  /api/students/:id               controllers.Students.delete(id: Long)
+
+# Courses
+GET     /api/courses                    controllers.Courses.list()
+GET     /api/course/:id                 controllers.Courses.get(id: Long)
+POST    /api/course                     controllers.Courses.create()
+PUT     /api/course/:id                 controllers.Courses.update(id: Long)
+DELETE  /api/course/:id                 controllers.Courses.delete(id: Long)
+
+# Course Sessions
+GET     /api/coursesessions                    controllers.CourseSessions.list()
+GET     /api/coursesession/:id                 controllers.CourseSessions.get(id: Long)
+POST    /api/coursesession                     controllers.CourseSessions.create()
+PUT     /api/coursesession/:id                 controllers.CourseSessions.update(id: Long)
+DELETE  /api/coursesession/:id                 controllers.CourseSessions.delete(id: Long)
+GET     /api/coursesession/register            controllers.CourseSessions.requestCourse(courseId: Int, studentId: Int)
+
+# Administration
+GET     /api/administration/analytics          controllers.Administrators.displayAnalytics()
+
+# Allocations
+GET     /api/allocations                controllers.Allocations.list()
+GET     /api/allocations/instructor/:id controllers.Allocations.getByInstructor(id: Long)
+GET     /api/allocation/:id             controllers.Allocations.get(id: Long)
+#POST    /api/allocation                 controllers.Allocations.create()
+PUT     /api/allocation/:id             controllers.Allocations.update(id: Long)
+DELETE  /api/allocation/:id             controllers.Allocations.delete(id: Long)
+POST    /api/allocation                 controllers.Allocations.allocateSeats()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

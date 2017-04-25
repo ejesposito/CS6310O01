@@ -1,0 +1,70 @@
+<div ng-controller="studentCtrl">
+
+    <h2>Student View</h2>
+    <h3>Change Student</h3>
+    <select ng-model="currentStudentId" ng-change="changeStudent()">
+        <option ng-repeat="student in students" >{{ student.id }}</option>
+    </select>
+    <h3>Student Information</h3>
+    <h4>Student Id: {{ currentStudent.person.id }}</h4>
+    <h4>Name: {{ currentStudent.person.name }}</h4>
+    <h4>Address: {{ currentStudent.person.address }}</h4>
+
+    <h3>Request Course</h3>
+    <h3>Courses</h3>
+    <h5>{{ enrollmentMessage }}</h5>
+    <select>
+        <option ng-repeat="course in courses" ng-model="chosenCourse">{{ course.name }}</option>
+    </select>
+    <button class="button color-green m-sides-10" ng-click="createCourse()">Request Course</button>
+
+    <h3>Current Courses</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th class="text-center">Course Id</th>
+                    <th class="text-center">Course Name</th>
+                </tr>
+                <tr ng-repeat="course in currentStudent.programCourses">
+                    <td>{{ course.id }}</td>
+                    <td>{{ course.name }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <h3>Records</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th class="text-center">Course Id</th>
+                    <th class="text-center">Course Name</th>
+                    <th class="text-center">Grade</th>
+                    <th class="text-center">Comment</th>
+                </tr>
+                <tr ng-repeat="record in currentStudent.record">
+                    <td>{{ record.courseSession.course.id }}</td>
+                    <td>{{ record.courseSession.course.name }}</td>
+                    <td>{{ record.humanFriendlyName  }}</td>
+                    <td>{{ record.comment }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <h2>All Students</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover text-center">
+                <tr>
+                    <th class="text-center">Student Id</th>
+                    <th class="text-center">Student Name</th>
+                </tr>
+                <tr ng-repeat="student in students">
+                    <td>{{ student.person.id }}</td>
+                    <td>{{ student.person.name }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
