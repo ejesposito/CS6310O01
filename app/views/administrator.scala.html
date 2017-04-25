@@ -9,14 +9,26 @@
         <div class="col-md-12">
             <h3>Program info</h3>
             <h4>Program name: {{program.name}}</h4>
-            <h4>Program name: {{program.currentYear}}</h4>
-            <h4>Program name: {{program.currentTerm}}</h4>
+            <h4>Current year: {{program.currentYear}}</h4>
+            <h4>Current term: {{program.currentTerm}}</h4>
         </div>
     </div>
     
     <div class="row" >
         <div class="col-md-12">
             <h3>Program update</h3>
+            <div class="col-md-4 form-group">
+                <h4>New Year</h4>
+                <input ng-model="program.currentYear" type="number" class="form-control input-sm"/>
+            </div>
+            <div class="col-md-4 form-group">
+                <h4>Term</h4>
+                <select ng-model="program.currentTerm" ng-options="term as term for term in ['FALL','SPRING','SUMMER']" class="form-control input-sm"></select>
+            </div>
+            <div class="col-md-4 button-container">
+                <h4>Action</h4>
+                <button class="button color-green m-sides-10" ng-click="updateProgram()">Update program</button>
+            </div>
         </div>
     </div>
 

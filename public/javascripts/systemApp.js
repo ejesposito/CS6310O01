@@ -104,6 +104,17 @@ systemApp.controller("administratorCtrl", ['$scope', '$http', function ($scope, 
                 //console.log(JSON.stringify(data) + " " + status);
             });
     };
+    
+    $scope.updateProgram = function() {
+        $http.put('/api/program/1', $scope.program, config)
+            .success(function (data, status, headers, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+                $scope.listPersons();
+            })
+            .error(function (data, status, header, config) {
+                //console.log(JSON.stringify(data) + " " + status);
+            });
+    };
 
     $scope.listPersons = function() {
         $http.get('/api/persons', config)

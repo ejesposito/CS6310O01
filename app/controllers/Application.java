@@ -2,14 +2,12 @@ package controllers;
 
 import com.avaje.ebean.Ebean;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import models.Administrator;
 import models.Course;
 import models.CourseSession;
 import models.Instructor;
@@ -18,6 +16,7 @@ import models.Program;
 import models.Program.Term;
 import models.Role;
 import models.Student;
+import play.Play;
 import play.mvc.*;
 import static play.mvc.Results.ok;
 
@@ -79,11 +78,13 @@ public class Application extends Controller {
     }
     
     public static Result clearAllData () {
-/*        String createDdl = "";
+        String createDdl = "";
         String dropDdl = "";
         String evolutionContent;
         try {
-            evolutionContent = FileUtils.readFileToString(new File("/conf/evolutions/default/1.sql"));
+            
+            byte[] encoded = Files.readAllBytes(Paths.get(Play.application().path().getPath() + "/conf/evolutions/default/1.sql"));            
+            evolutionContent = new String(encoded, "UTF-8");
             String[] splittedEvolutionContent = evolutionContent.split("# --- !Ups");
             String[] upsDowns = splittedEvolutionContent[1].split("# --- !Downs");
             createDdl = upsDowns[0];
@@ -94,8 +95,7 @@ public class Application extends Controller {
         } catch (Exception e) {
             appLogger.error("Error clearing db data", e);
             return internalServerError("Error clearing db data");
-        }   */
-        return ok();
+        }
     }
     
     public interface ObjectParser{
